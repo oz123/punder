@@ -41,6 +41,10 @@ class PySunder():
         button_help = gtk.ToolButton(gtk.STOCK_HELP)
         button_help.set_is_important(True)
         button_about = gtk.ToolButton(gtk.STOCK_ABOUT)
+        
+        # if you set a button to not important, it's text label
+        # will not be shown!
+        # unlike button2.set_is_important(True)
         button_about.set_is_important(False)
         
         window.connect("destroy", lambda w: gtk.main_quit())       
