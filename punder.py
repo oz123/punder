@@ -10,7 +10,7 @@ just icons.
 
 import gtk
 
-class PySunder():
+class PunderUI():
     """
     Initial class to draw the first toolbar.
     """
@@ -34,9 +34,12 @@ class PySunder():
         """
         window = gtk.Window()
         window.set_default_size(500, -1)
-        
+        vbox = gtk.VBox()
+        window.add(vbox)      
+       
         toolbar = gtk.Toolbar()
-        # bad naming convention
+        
+
         button1 = gtk.ToolButton()
         button1 = gtk.ToolButton(gtk.STOCK_REFRESH)
         
@@ -72,14 +75,25 @@ class PySunder():
         button_about.connect("clicked", self.help_dialog)
         
         window.connect("destroy", lambda w: gtk.main_quit())       
-        window.add(toolbar)
+        # we don't use window.add anymore, instead we use pack!
         toolbar.insert(button1, 0)
         toolbar.insert(button2, 1)
         toolbar.insert(separator1, 2)
         toolbar.insert(button_about, 3)
+        vbox.pack_start(toolbar, False)
+        #window.add(toolbar)
+   
+        # add some more stuff to vbox
+        album_info = gtk.Label('A place holder for Album info')
+        vbox.pack_start(album_info)
+        
+        track_list = gtk.Label('A place holder for track_list')
+        vbox.pack_start(track_list)
+        
+
         window.show_all()
 
-PySunder()
+PunderUI()
 gtk.main()
 
 # [doc1]: http://www.pygtk.org/docs/pygobject/class-gobject.html#method-gobject--connect 
