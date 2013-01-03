@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 
 """
-punder - part one, making a button do something:
+punder - part two, populating a table with child widgets
 
-creating a very very basic UI. A tool bar with Four buttons. 
-2 of the buttones contain icons and text, and two buttons contain
-just icons.
+out UI is almost ready, we just need to poplute the list of tracks.
 """
 
 import gtk
@@ -39,7 +37,6 @@ class PunderUI():
        
         toolbar = gtk.Toolbar()
         
-
         button1 = gtk.ToolButton()
         button1 = gtk.ToolButton(gtk.STOCK_REFRESH)
         
@@ -81,16 +78,47 @@ class PunderUI():
         toolbar.insert(separator1, 2)
         toolbar.insert(button_about, 3)
         vbox.pack_start(toolbar, False)
-        #window.add(toolbar)
-   
-        # add some more stuff to vbox
-        album_info = gtk.Label('A place holder for Album info')
-        vbox.pack_start(album_info)
         
+        # a table is a very convient way to populate the window
+        # with many different elements. A table can be packed too!
+        album_table = gtk.Table(3, 3, False)
+        vbox.pack_start(album_table)
+        
+        artist_name = gtk.Entry(128)
+        artist_name.set_text("Unknown Artist")
+        artist_label = gtk.Label('Album Artist:')
+       
+        # child widgets are connected to the table with the method
+        # attach. 
+        # album_table.attach(child, left, right, top, bottom)
+        # the coordinates start from 0, 0 at the top left corner of 
+        # the table
+        album_table.attach(artist_label, 0, 1, 0, 1)
+        album_table.attach(artist_name, 1, 2, 0, 1)
+ 
+        album_name = gtk.Entry(128)
+        album_name.set_text("Unknown Album")
+        album_label = gtk.Label('Album Title:')
+        
+        album_table.attach(album_label, 0, 1, 1, 2)
+        album_table.attach(album_name, 1, 2, 1, 2)       
+        
+        album_year = gtk.Entry(4)
+        album_year.set_text("1900")
+        album_genre = gtk.Entry(128)
+        album_genre.set_text("Unknown")
+        album_genyear = gtk.Label('Genre/Year:')
+        
+        album_table.attach(album_year, 2, 3, 2, 3)
+        album_table.attach(album_genre, 1, 2, 2, 3)
+        album_table.attach(album_genyear, 0, 1, 2, 3) 
         track_list = gtk.Label('A place holder for track_list')
+        
+        # add a checkbox for marking Single Artist
+        single_artist = gtk.CheckButton("Single Artist")
+        album_table.attach(single_artist, 2, 3, 0, 1)
         vbox.pack_start(track_list)
         
-
         window.show_all()
 
 PunderUI()
