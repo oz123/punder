@@ -60,7 +60,7 @@ class PunderUI():
         """
         window = gtk.Window()
         window.set_default_size(500, -1)
-        vbox = gtk.VBox()
+        vbox = gtk.VBox(False)
         window.add(vbox)      
        
         toolbar = gtk.Toolbar()
@@ -110,26 +110,30 @@ class PunderUI():
         # a table is a very convient way to populate the window
         # with many different elements. A table can be packed too!
         album_table = gtk.Table(3, 3, False)
-        vbox.pack_start(album_table)
+        vbox.pack_start(album_table,False)
         
         artist_name = gtk.Entry(128)
         artist_name.set_text("Unknown Artist")
-        artist_label = gtk.Label('Album Artist:')
+        album_table.attach(artist_name, 1, 2, 0, 1, gtk.EXPAND | gtk.FILL)
+ 
        
         # child widgets are connected to the table with the method
         # attach. 
         # album_table.attach(child, left, right, top, bottom)
         # the coordinates start from 0, 0 at the top left corner of 
         # the table
-        album_table.attach(artist_label, 0, 1, 0, 1)
-        album_table.attach(artist_name, 1, 2, 0, 1)
- 
+        album_table.set_homogeneous(False)
+        artist_label = gtk.Label('Album Artist:')
+        album_table.attach(artist_label, 0, 1, 0, 1, gtk.FILL)
+        
+        
+        
         album_name = gtk.Entry(128)
         album_name.set_text("Unknown Album")
         album_label = gtk.Label('Album Title:')
         
-        album_table.attach(album_label, 0, 1, 1, 2)
-        album_table.attach(album_name, 1, 2, 1, 2)       
+        album_table.attach(album_label, 0, 1, 1, 2, gtk.FILL)
+        album_table.attach(album_name, 1, 2, 1, 2, gtk.EXPAND | gtk.FILL)       
         
         album_year = gtk.Entry(4)
         album_year.set_text("1900")
@@ -137,9 +141,10 @@ class PunderUI():
         album_genre.set_text("Unknown")
         album_genyear = gtk.Label('Genre/Year:')
         
-        album_table.attach(album_year, 2, 3, 2, 3)
-        album_table.attach(album_genre, 1, 2, 2, 3)
-        album_table.attach(album_genyear, 0, 1, 2, 3) 
+        album_table.attach(album_year, 2, 3, 2, 3,gtk.FILL)
+        album_table.attach(album_genre, 1, 2, 2, 3,gtk.EXPAND | gtk.FILL)
+        album_table.attach(album_genyear, 0, 1, 2, 3,gtk.FILL) 
+        
         
         scrolled_tracks = gtk.ScrolledWindow()
         scrolled_tracks.set_policy (gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)               
@@ -158,7 +163,7 @@ class PunderUI():
         # add a checkbox for marking Single Artist
         vbox.pack_start(scrolled_tracks, True, True, 0)
         single_artist = gtk.CheckButton("Single Artist")
-        album_table.attach(single_artist, 2, 3, 0, 1)     
+        album_table.attach(single_artist, 2, 3, 0, 1,gtk.FILL)     
         
         scrolled_tracks.set_shadow_type(gtk.SHADOW_ETCHED_IN)
         treeview.set_rules_hint(True)
