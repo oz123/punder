@@ -2,8 +2,7 @@
 
 """
 punder - part two, populating a table with child widgets
-
-out UI is almost ready, we just need to poplute the list of tracks.
+UI is almost ready, tree view for track list is populated.
 """
 
 import gtk
@@ -26,6 +25,35 @@ class PunderUI():
         # press the button 'Close'.
         self.about.hide()
     
+    def create_columns(self, treeView):
+        """
+        create columns for treeview of track list
+        """
+        rendererText = gtk.CellRendererText()
+        column = gtk.TreeViewColumn("Rip", rendererText, text=0)
+        column.set_sort_column_id(0)    
+        treeView.append_column(column)
+        
+        rendererText = gtk.CellRendererText()
+        column = gtk.TreeViewColumn("Track", rendererText, text=1)
+        column.set_sort_column_id(1)    
+        treeView.append_column(column)
+        
+        rendererText = gtk.CellRendererText()
+        column = gtk.TreeViewColumn("Artist", rendererText, text=2)
+        column.set_sort_column_id(2)
+        treeView.append_column(column)
+
+        rendererText = gtk.CellRendererText()
+        column = gtk.TreeViewColumn("Title", rendererText, text=3)
+        column.set_sort_column_id(3)
+        treeView.append_column(column)
+
+        rendererText = gtk.CellRendererText()
+        column = gtk.TreeViewColumn("Duration", rendererText, text=4)
+        column.set_sort_column_id(4)
+        treeView.append_column(column)
+
     def __init__(self):
         """
         create the gui using GTK Window, and Toolbar.
@@ -114,22 +142,32 @@ class PunderUI():
         album_table.attach(album_genyear, 0, 1, 2, 3) 
         
         scrolled_tracks = gtk.ScrolledWindow()
-        scrolled_tracks.set_policy (gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
-        #track_list = gtk.Label('A place holder for track_list')
+        scrolled_tracks.set_policy (gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)               
+        liststore = gtk.ListStore(bool,int,str,str,str)
+        treeview = gtk.TreeView(liststore)
+        # dummy function 
+        for i in range(1,6):
+           liststore.append([True,i,"bar","baz","zap"])
         
-        treeview = gtk.TreeView()
+        #treeview = gtk.TreeView(store)
         treeview.set_rules_hint(True)
         treeview.set_enable_search(False)
-
-        scrolled_tracks.add(treeview)
-        #treeview.set_model(model)
-        # add a checkbox for marking Single Artist
-        single_artist = gtk.CheckButton("Single Artist")
-        album_table.attach(single_artist, 2, 3, 0, 1)
-        vbox.pack_start(scrolled_tracks)
         
+        self.create_columns(treeview)
+
+        # add a checkbox for marking Single Artist
+        vbox.pack_start(scrolled_tracks, True, True, 0)
+        single_artist = gtk.CheckButton("Single Artist")
+        album_table.attach(single_artist, 2, 3, 0, 1)     
+        
+        scrolled_tracks.set_shadow_type(gtk.SHADOW_ETCHED_IN)
+        treeview.set_rules_hint(True)
+        scrolled_tracks.add(treeview)
         window.show_all()
 
+
+
+        
 PunderUI()
 gtk.main()
 
