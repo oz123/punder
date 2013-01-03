@@ -112,12 +112,21 @@ class PunderUI():
         album_table.attach(album_year, 2, 3, 2, 3)
         album_table.attach(album_genre, 1, 2, 2, 3)
         album_table.attach(album_genyear, 0, 1, 2, 3) 
-        track_list = gtk.Label('A place holder for track_list')
         
+        scrolled_tracks = gtk.ScrolledWindow()
+        scrolled_tracks.set_policy (gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
+        #track_list = gtk.Label('A place holder for track_list')
+        
+        treeview = gtk.TreeView()
+        treeview.set_rules_hint(True)
+        treeview.set_enable_search(False)
+
+        scrolled_tracks.add(treeview)
+        #treeview.set_model(model)
         # add a checkbox for marking Single Artist
         single_artist = gtk.CheckButton("Single Artist")
         album_table.attach(single_artist, 2, 3, 0, 1)
-        vbox.pack_start(track_list)
+        vbox.pack_start(scrolled_tracks)
         
         window.show_all()
 
