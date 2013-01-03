@@ -29,30 +29,13 @@ class PunderUI():
         """
         create columns for treeview of track list
         """
-        rendererText = gtk.CellRendererText()
-        column = gtk.TreeViewColumn("Rip", rendererText, text=0)
-        column.set_sort_column_id(0)    
-        treeView.append_column(column)
         
-        rendererText = gtk.CellRendererText()
-        column = gtk.TreeViewColumn("Track", rendererText, text=1)
-        column.set_sort_column_id(1)    
-        treeView.append_column(column)
-        
-        rendererText = gtk.CellRendererText()
-        column = gtk.TreeViewColumn("Artist", rendererText, text=2)
-        column.set_sort_column_id(2)
-        treeView.append_column(column)
-
-        rendererText = gtk.CellRendererText()
-        column = gtk.TreeViewColumn("Title", rendererText, text=3)
-        column.set_sort_column_id(3)
-        treeView.append_column(column)
-
-        rendererText = gtk.CellRendererText()
-        column = gtk.TreeViewColumn("Duration", rendererText, text=4)
-        column.set_sort_column_id(4)
-        treeView.append_column(column)
+        column_titles = ["Rip", "Track", "Artist", "Title", "Duration"]
+        for idx, title in enumerate(column_titles):
+            rendererText = gtk.CellRendererText()
+            column = gtk.TreeViewColumn(title, rendererText, text=idx)
+            column.set_sort_column_id(idx)    
+            treeView.append_column(column)       
 
     def __init__(self):
         """
