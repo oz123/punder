@@ -2,8 +2,7 @@
 
 """
 punder - part two, populating a table with child widgets
-
-out UI is almost ready, we just need to poplute the list of tracks.
+UI is almost ready, tree view for track list is populated.
 """
 
 import gtk
@@ -14,18 +13,47 @@ class PunderUI():
     """
     def help_dialog(self, widget):
         """
-        create a GTK help dialog upon button click and destroy it when pressing the 
+        create a GTK help dialog upon button click and destroy it when pressing the
         close button
         """
         self.about = gtk.AboutDialog()
         sometext=gtk.Label('This is just the beggining.\nWill Get back to later.')
-        self.about.vbox.pack_start(sometext)      
+        self.about.vbox.pack_start(sometext)
         self.about.show_all()
-        result = self.about.run() 
+        result = self.about.run()
         # adding this will cause the about dialog to close when we
         # press the button 'Close'.
         self.about.hide()
     
+    def create_columns(self, treeView):
+        """
+        create columns for treeview of track list
+        """
+        rendererText = gtk.CellRendererText()
+        column = gtk.TreeViewColumn("Rip", rendererText, text=0)
+        column.set_sort_column_id(0)
+        treeView.append_column(column)
+        
+        rendererText = gtk.CellRendererText()
+        column = gtk.TreeViewColumn("Track", rendererText, text=1)
+        column.set_sort_column_id(1)
+        treeView.append_column(column)
+        
+        rendererText = gtk.CellRendererText()
+        column = gtk.TreeViewColumn("Artist", rendererText, text=2)
+        column.set_sort_column_id(2)
+        treeView.append_column(column)
+
+        rendererText = gtk.CellRendererText()
+        column = gtk.TreeViewColumn("Title", rendererText, text=3)
+        column.set_sort_column_id(3)
+        treeView.append_column(column)
+
+        rendererText = gtk.CellRendererText()
+        column = gtk.TreeViewColumn("Duration", rendererText, text=4)
+        column.set_sort_column_id(4)
+        treeView.append_column(column)
+
     def __init__(self):
         """
         create the gui using GTK Window, and Toolbar.
@@ -33,7 +61,7 @@ class PunderUI():
         window = gtk.Window()
         window.set_default_size(500, -1)
         vbox = gtk.VBox()
-        window.add(vbox)      
+        window.add(vbox)
        
         toolbar = gtk.Toolbar()
         
@@ -48,8 +76,8 @@ class PunderUI():
         
         separator1 = gtk.SeparatorToolItem()
         
-        # more verbose ... hard to type, but nothing that 
-        # a decent IDE can not cope with. 
+        # more verbose ... hard to type, but nothing that
+        # a decent IDE can not cope with.
         # give your items clear name, which indicate
         # their roles
         #button_help = gtk.ToolButton(gtk.STOCK_HELP)
@@ -71,7 +99,7 @@ class PunderUI():
         # see more info the [method documentation][doc1]
         button_about.connect("clicked", self.help_dialog)
         
-        window.connect("destroy", lambda w: gtk.main_quit())       
+        window.connect("destroy", lambda w: gtk.main_quit())
         # we don't use window.add anymore, instead we use pack!
         toolbar.insert(button1, 0)
         toolbar.insert(button2, 1)
@@ -89,9 +117,9 @@ class PunderUI():
         artist_label = gtk.Label('Album Artist:')
        
         # child widgets are connected to the table with the method
-        # attach. 
+        # attach.
         # album_table.attach(child, left, right, top, bottom)
-        # the coordinates start from 0, 0 at the top left corner of 
+        # the coordinates start from 0, 0 at the top left corner of
         # the table
         album_table.attach(artist_label, 0, 1, 0, 1)
         album_table.attach(artist_name, 1, 2, 0, 1)
@@ -101,7 +129,7 @@ class PunderUI():
         album_label = gtk.Label('Album Title:')
         
         album_table.attach(album_label, 0, 1, 1, 2)
-        album_table.attach(album_name, 1, 2, 1, 2)       
+        album_table.attach(album_name, 1, 2, 1, 2)
         
         album_year = gtk.Entry(4)
         album_year.set_text("1900")
@@ -111,16 +139,31 @@ class PunderUI():
         
         album_table.attach(album_year, 2, 3, 2, 3)
         album_table.attach(album_genre, 1, 2, 2, 3)
-        album_table.attach(album_genyear, 0, 1, 2, 3) 
-        track_list = gtk.Label('A place holder for track_list')
+        album_table.attach(album_genyear, 0, 1, 2, 3)
+        
+        liststore = gtk.ListStore(bool,int,str,str,str)
+        treeview = gtk.TreeView(liststore)
+        # dummy function
+        for i in range(1,6):
+           liststore.append([True,i,"bar","baz","zap"])
+        
+        #treeview = gtk.TreeView(store)
+        treeview.set_rules_hint(True)
+        treeview.set_enable_search(False)
+        self.create_columns(treeview)
         
         # add a checkbox for marking Single Artist
         single_artist = gtk.CheckButton("Single Artist")
         album_table.attach(single_artist, 2, 3, 0, 1)
-        vbox.pack_start(track_list)
+        
+        treeview.set_rules_hint(True)
+        vbox.pack_start(treeview)
         
         window.show_all()
 
+
+
+        
 PunderUI()
 gtk.main()
 
