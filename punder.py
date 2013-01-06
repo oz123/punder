@@ -29,8 +29,8 @@ class PunderUI():
         """
         create columns for treeview of track list
         """
-        rendererText = gtk.CellRendererText()
-        column = gtk.TreeViewColumn("Rip", rendererText, text=0)
+        cell = gtk.CellRendererToggle()
+        column = gtk.TreeViewColumn("Rip",cell,active=1)
         column.set_sort_column_id(0)
         treeView.append_column(column)
         
