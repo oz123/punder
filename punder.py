@@ -25,12 +25,23 @@ class PunderUI():
         # press the button 'Close'.
         self.about.hide()
     
+    def on_toggle(self, cell, path, list_store):
+        """
+        a click event on the check button should negate
+        the content of the button.
+        """
+        if path is not None:
+            iterator = list_store.get_iter(path)
+            list_store[iterator][0] = not list_store[iterator][0]
+        
+            
     def create_columns(self, treeView):
         """
         create columns for treeview of track list
         """
         cell = gtk.CellRendererToggle()
-        column = gtk.TreeViewColumn("Rip",cell,active=1)
+        cell.connect("toggled", self.on_toggle, self.liststore)
+        column = gtk.TreeViewColumn("Rip",cell,active=0)
         column.set_sort_column_id(0)
         treeView.append_column(column)
         
@@ -141,12 +152,25 @@ class PunderUI():
         album_table.attach(album_genre, 1, 2, 2, 3)
         album_table.attach(album_genyear, 0, 1, 2, 3)
         
-        liststore = gtk.ListStore(bool,int,str,str,str)
-        treeview = gtk.TreeView(liststore)
+        self.liststore = gtk.ListStore(bool,int,str,str,str)
+        treeview = gtk.TreeView(self.liststore)
         # dummy function
-        for i in range(1,6):
-           liststore.append([True,i,"bar","baz","zap"])
         
+        for i in range(1,6):
+           tree_iter = self.liststore.append([True,i,"bar","baz","zap"])
+        
+        # access the table values as a coordinate system (like in gtk.Table)
+        self.liststore[2][0] = False
+        
+        # or you can use the iterators approach
+        path = self.liststore.get_path(tree_iter)
+        self.ls_iter = self.liststore.get_iter_first()
+        # liststore.set_value(iter, column, value)
+        self.liststore.set_value(self.ls_iter, 3, "First Track")
+        second = self.liststore.iter_next(self.ls_iter)
+        third = self.liststore.iter_next(second)
+        self.liststore.set_value(third, 2, "Famous Singer")
+
         #treeview = gtk.TreeView(store)
         treeview.set_rules_hint(True)
         treeview.set_enable_search(False)
