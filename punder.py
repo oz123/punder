@@ -4,6 +4,7 @@
 punder - part two, populating a table with child widgets
 UI is almost ready, tree view for track list is populated.
 """
+# branch to preserve scrolled view
 
 import gtk
 
