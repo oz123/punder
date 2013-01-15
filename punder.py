@@ -13,29 +13,45 @@ class PunderUI():
     """
     def help_dialog(self, widget):
         """
-        create a GTK help dialog upon button click and destroy it when pressing the 
+        create a GTK help dialog upon button click and destroy it when pressing the
         close button
         """
         self.about = gtk.AboutDialog()
         sometext=gtk.Label('This is just the beggining.\nWill Get back to later.')
-        self.about.vbox.pack_start(sometext)      
+        self.about.vbox.pack_start(sometext)
         self.about.show_all()
-        result = self.about.run() 
+        result = self.about.run()
         # adding this will cause the about dialog to close when we
         # press the button 'Close'.
         self.about.hide()
     
+    def on_toggle(self, cell, path, list_store):
+        """
+        a click event on the check button should negate
+        the content of the button.
+        """
+        if path is not None:
+            iterator = list_store.get_iter(path)
+            list_store[iterator][0] = not list_store[iterator][0]
+        
+
     def create_columns(self, treeView):
         """
         create columns for treeview of track list
         """
+        cell = gtk.CellRendererToggle()
+        cell.connect("toggled", self.on_toggle, self.liststore)
+        column = gtk.TreeViewColumn("Rip",cell,active=0)
+        column.set_sort_column_id(0)
+        treeView.append_column(column)
         
-        column_titles = ["Rip", "Track", "Artist", "Title", "Duration"]
+        column_titles = ["Track", "Artist", "Title", "Duration"]
         for idx, title in enumerate(column_titles):
             rendererText = gtk.CellRendererText()
             column = gtk.TreeViewColumn(title, rendererText, text=idx)
-            column.set_sort_column_id(idx)    
-            treeView.append_column(column)       
+            column.set_sort_column_id(idx)
+            treeView.append_column(column)
+
 
     def __init__(self):
         """
@@ -43,8 +59,15 @@ class PunderUI():
         """
         window = gtk.Window()
         window.set_default_size(500, -1)
+
+        # Set VBox to heterogeneous so different widgets can have 
+        # different sizes 
+        # All widgets attached will be the same size
+        # Setting homogenous to false makes the UI look sane
+        # only in a few cases we create VBOX with the homogenous option
         vbox = gtk.VBox(False)
-        window.add(vbox)      
+        window.add(vbox)
+
        
         toolbar = gtk.Toolbar()
         
@@ -59,8 +82,8 @@ class PunderUI():
         
         separator1 = gtk.SeparatorToolItem()
         
-        # more verbose ... hard to type, but nothing that 
-        # a decent IDE can not cope with. 
+        # more verbose ... hard to type, but nothing that
+        # a decent IDE can not cope with.
         # give your items clear name, which indicate
         # their roles
         #button_help = gtk.ToolButton(gtk.STOCK_HELP)
@@ -82,7 +105,7 @@ class PunderUI():
         # see more info the [method documentation][doc1]
         button_about.connect("clicked", self.help_dialog)
         
-        window.connect("destroy", lambda w: gtk.main_quit())       
+        window.connect("destroy", lambda w: gtk.main_quit())
         # we don't use window.add anymore, instead we use pack!
         toolbar.insert(button1, 0)
         toolbar.insert(button2, 1)
@@ -92,65 +115,75 @@ class PunderUI():
         
         # a table is a very convient way to populate the window
         # with many different elements. A table can be packed too!
+        
         album_table = gtk.Table(3, 3, False)
-        vbox.pack_start(album_table,False)
+        # set fill to False so when resizing the window, it does not 
+        # expand !
+        vbox.pack_start(album_table, False)
         
         artist_name = gtk.Entry(128)
         artist_name.set_text("Unknown Artist")
+        artist_label = gtk.Label('Album Artist:')
+        artist_label.set_alignment(0, 0.5)
+        # child widgets are connected to the table with the method
+        # attach.
+        # album_table.attach(child, left, right, top, bottom)
+        # the coordinates start from 0, 0 at the top left corner of
+        # the table
+        album_table.attach(artist_label, 0, 1, 0, 1,  gtk.FILL)
         album_table.attach(artist_name, 1, 2, 0, 1, gtk.EXPAND | gtk.FILL)
  
-       
-        # child widgets are connected to the table with the method
-        # attach. 
-        # album_table.attach(child, left, right, top, bottom)
-        # the coordinates start from 0, 0 at the top left corner of 
-        # the table
-        album_table.set_homogeneous(False)
-        artist_label = gtk.Label('Album Artist:')
-        album_table.attach(artist_label, 0, 1, 0, 1, gtk.FILL)
-        
-        
-        
         album_name = gtk.Entry(128)
         album_name.set_text("Unknown Album")
         album_label = gtk.Label('Album Title:')
+        album_label.set_alignment(0, 0.5)
         
         album_table.attach(album_label, 0, 1, 1, 2, gtk.FILL)
-        album_table.attach(album_name, 1, 2, 1, 2, gtk.EXPAND | gtk.FILL)       
-        
+        album_table.attach(album_name, 1, 2, 1, 2, gtk.EXPAND | gtk.FILL)
+
         album_year = gtk.Entry(4)
         album_year.set_text("1900")
         album_genre = gtk.Entry(128)
         album_genre.set_text("Unknown")
-        album_genyear = gtk.Label('Genre/Year:')
+
+        album_genyear = gtk.Label('Genre / Year:')
+        album_genyear.set_alignment(0,0.5)
+
+        album_table.attach(album_genyear, 0, 1, 2, 3, gtk.FILL)
+        album_table.attach(album_year, 2, 3, 2, 3, gtk.FILL)
+        album_table.attach(album_genre, 1, 2, 2, 3, gtk.EXPAND | gtk.FILL)
         
-        album_table.attach(album_year, 2, 3, 2, 3,gtk.FILL)
-        album_table.attach(album_genre, 1, 2, 2, 3,gtk.EXPAND | gtk.FILL)
-        album_table.attach(album_genyear, 0, 1, 2, 3,gtk.FILL) 
         
+        self.liststore = gtk.ListStore(bool,int,str,str,str)
+        treeview = gtk.TreeView(self.liststore)
+        # dummy function
         
-        scrolled_tracks = gtk.ScrolledWindow()
-        scrolled_tracks.set_policy (gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)               
-        liststore = gtk.ListStore(bool,int,str,str,str)
-        treeview = gtk.TreeView(liststore)
-        # dummy function 
         for i in range(1,6):
-           liststore.append([True,i,"bar","baz","zap"])
+           tree_iter = self.liststore.append([True,i,"bar","baz","zap"])
         
+        # access the table values as a coordinate system (like in gtk.Table)
+        self.liststore[2][0] = False
+        
+        # or you can use the iterators approach
+        path = self.liststore.get_path(tree_iter)
+        self.ls_iter = self.liststore.get_iter_first()
+        # liststore.set_value(iter, column, value)
+        self.liststore.set_value(self.ls_iter, 3, "First Track")
+        second = self.liststore.iter_next(self.ls_iter)
+        third = self.liststore.iter_next(second)
+        self.liststore.set_value(third, 2, "Famous Singer")
+
         #treeview = gtk.TreeView(store)
         treeview.set_rules_hint(True)
         treeview.set_enable_search(False)
-        
         self.create_columns(treeview)
-
-        # add a checkbox for marking Single Artist
-        vbox.pack_start(scrolled_tracks, True, True, 0)
-        single_artist = gtk.CheckButton("Single Artist")
-        album_table.attach(single_artist, 2, 3, 0, 1,gtk.FILL)     
         
-        scrolled_tracks.set_shadow_type(gtk.SHADOW_ETCHED_IN)
+        # add a checkbox for marking Single Artist
+        single_artist = gtk.CheckButton("Single Artist")
+        album_table.attach(single_artist, 2, 3, 0, 1,gtk.FILL)
+        
         treeview.set_rules_hint(True)
-        scrolled_tracks.add(treeview)
+        vbox.pack_start(treeview)
         window.show_all()
 
 
