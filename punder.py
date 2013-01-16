@@ -6,11 +6,48 @@ UI is almost ready, tree view for track list is populated.
 """
 
 import gtk
+class PrefDialog():
+    """
+    create the preferences dialog
+    """       
+    def __init__(self):
+        """
+        initialize the preferences dialog
+        """
+        dialog = gtk.Dialog("Preferences", None, 0, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
+        dialog.set_default_size(250, 300)
+        label = gtk.Label("PyGTK Dialog")
+        
+        notebook = gtk.Notebook()
+        
+        lables = []
+        for page in ["General", "File Names", "Encode", "Advanced"]:
+            # later, we can replace widget with a vbox, and then
+            # the road is wide open to start packing other widgets inside it!
+            widget = gtk.Label(page + " Inside")
+            label = gtk.Label(page)
+            notebook.append_page(widget,label)
+       
+        dialog.vbox.pack_start(notebook)
+        dialog.show_all()
+        
+        response = dialog.run()
+        
+        if response == gtk.RESPONSE_OK:
+            print "The OK button was clicked"
+        elif response == gtk.RESPONSE_CANCEL:
+            print "The Cancel button was clicked"
+        
+        dialog.destroy()
+        
 
 class PunderUI():
     """
     Initial class to draw the first toolbar.
     """
+    def pref_dialog(self, widget):
+        PrefDialog()
+    
     def help_dialog(self, widget):
         """
         create a GTK help dialog upon button click and destroy it when pressing the
@@ -77,8 +114,9 @@ class PunderUI():
         button1.set_label("CDDB")
         button1.set_is_important(True)
         
-        button2 = gtk.ToolButton(gtk.STOCK_PREFERENCES)
-        button2.set_is_important(True)
+        pref_button = gtk.ToolButton(gtk.STOCK_PREFERENCES)
+        pref_button.set_is_important(True)
+        pref_button.connect("clicked", self.pref_dialog)
         
         separator1 = gtk.SeparatorToolItem()
         
@@ -108,7 +146,7 @@ class PunderUI():
         window.connect("destroy", lambda w: gtk.main_quit())
         # we don't use window.add anymore, instead we use pack!
         toolbar.insert(button1, 0)
-        toolbar.insert(button2, 1)
+        toolbar.insert(pref_button, 1)
         toolbar.insert(separator1, 2)
         toolbar.insert(button_about, 3)
         vbox.pack_start(toolbar, False)
