@@ -6,38 +6,22 @@ UI is almost ready, tree view for track list is populated.
 """
 
 import gtk
+
 class PrefDialog():
     """
     create the preferences dialog
     """       
-    def __init__(self):
+    def __init__(self, window):
         """
         initialize the preferences dialog
         """
-        dialog = gtk.Dialog("Preferences", None, 0, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
+        # title, parent, flags (0, for defaults), no buttons
+        dialog = gtk.Dialog("Preferences", window, 0,
+        (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
         dialog.set_default_size(250, 300)
         label = gtk.Label("PyGTK Dialog")
-        
-        notebook = gtk.Notebook()
-        
-        lables = []
-        for page in ["General", "File Names", "Encode", "Advanced"]:
-            # later, we can replace widget with a vbox, and then
-            # the road is wide open to start packing other widgets inside it!
-            widget = gtk.Label(page + " Inside")
-            label = gtk.Label(page)
-            notebook.append_page(widget,label)
-       
-        dialog.vbox.pack_start(notebook)
-        dialog.show_all()
-        
+               
         response = dialog.run()
-        
-        if response == gtk.RESPONSE_OK:
-            print "The OK button was clicked"
-        elif response == gtk.RESPONSE_CANCEL:
-            print "The Cancel button was clicked"
-        
         dialog.destroy()
         
 
@@ -46,7 +30,10 @@ class PunderUI():
     Initial class to draw the first toolbar.
     """
     def pref_dialog(self, widget):
-        PrefDialog()
+        """
+        A simple method to initiate a PrefDialog instance.
+        """
+        PrefDialog(self.window)
     
     def help_dialog(self, widget):
         """
@@ -94,16 +81,16 @@ class PunderUI():
         """
         create the gui using GTK Window, and Toolbar.
         """
-        window = gtk.Window()
-        window.set_default_size(500, -1)
+        self.window = gtk.Window()
+        self.window.set_default_size(500, -1)
 
         # Set VBox to heterogeneous so different widgets can have 
         # different sizes 
         # All widgets attached will be the same size
-        # Setting homogenous to false makes the UI look sane
+        # Setting homogeneous to false makes the UI look sane
         # only in a few cases we create VBOX with the homogenous option
         vbox = gtk.VBox(False)
-        window.add(vbox)
+        self.window.add(vbox)
 
        
         toolbar = gtk.Toolbar()
@@ -114,8 +101,11 @@ class PunderUI():
         button1.set_label("CDDB")
         button1.set_is_important(True)
         
+        # Add preferences button 
         pref_button = gtk.ToolButton(gtk.STOCK_PREFERENCES)
+        # Setting the button to important, shows its label
         pref_button.set_is_important(True)
+        # connect the button the pref_dialog method
         pref_button.connect("clicked", self.pref_dialog)
         
         separator1 = gtk.SeparatorToolItem()
@@ -143,7 +133,7 @@ class PunderUI():
         # see more info the [method documentation][doc1]
         button_about.connect("clicked", self.help_dialog)
         
-        window.connect("destroy", lambda w: gtk.main_quit())
+        self.window.connect("destroy", lambda w: gtk.main_quit())
         # we don't use window.add anymore, instead we use pack!
         toolbar.insert(button1, 0)
         toolbar.insert(pref_button, 1)
@@ -222,7 +212,7 @@ class PunderUI():
         
         treeview.set_rules_hint(True)
         vbox.pack_start(treeview)
-        window.show_all()
+        self.window.show_all()
 
 
 
