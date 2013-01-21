@@ -19,7 +19,6 @@ class PrefDialog():
         dialog = gtk.Dialog("Preferences", window, 0,
         (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
         dialog.set_default_size(250, 300)
-        label = gtk.Label("PyGTK Dialog")
                
         response = dialog.run()
         dialog.destroy()
