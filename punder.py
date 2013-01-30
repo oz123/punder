@@ -10,18 +10,56 @@ import gtk
 class PrefDialog():
     """
     create the preferences dialog
-    """       
+    """ 
+    
+    def insert_label(self):
+        """
+        demonstrate a vbox with gtk.label
+        """
+        label = gtk.Label("PyGTK Dialog")       
+        self.dialog.vbox.pack_start(label, True, True, 0)
+        
+    def insert_notebook(self):
+        """
+        demonstrate a gtk notebook 
+        """
+        notebook = gtk.Notebook()
+        lables = []
+        for page in ["General", "File Names", "Encode", "Advanced"]:
+            # later, we can replace widget with a vbox, and then
+            # the road is wide open to start packing other widgets inside it!
+            widget = gtk.Label(page + " Inside")
+            widget1 = gtk.Label("Second Label")
+            vbox = gtk.VBox(False)
+            vbox.pack_start(widget)
+            vbox.pack_start(widget1)
+            label = gtk.Label(page)
+            notebook.append_page(vbox,label)
+            
+        self.dialog.vbox.pack_start(notebook)
+            
     def __init__(self, window):
         """
         initialize the preferences dialog
         """
         # title, parent, flags (0, for defaults), no buttons
-        dialog = gtk.Dialog("Preferences", window, 0,
+        self.dialog = gtk.Dialog("Preferences", window, 0,
         (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
-        dialog.set_default_size(250, 300)
-               
-        response = dialog.run()
-        dialog.destroy()
+        self.dialog.set_default_size(250, 300)
+        
+        #self.insert_label()
+        self.insert_notebook()
+        response = self.dialog.show_all()
+        response = self.dialog.run()
+        
+
+        
+        if response == gtk.RESPONSE_OK:
+            print "The OK button was clicked"
+        elif response == gtk.RESPONSE_CANCEL:
+            print "The Cancel button was clicked"
+        
+        self.dialog.destroy()
         
 
 class PunderUI():
