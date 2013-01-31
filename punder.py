@@ -21,11 +21,12 @@ class PrefDialog():
         
     def insert_notebook(self):
         """
-        demonstrate a gtk notebook 
+        populate the notebook with the real GUI
         """
         notebook = gtk.Notebook()
-        lables = []
-        for page in ["General", "File Names", "Encode", "Advanced"]:
+        
+        for idx, page in enumerate(["General", "File Names", "Encode", 
+            "Advanced"]):
             # later, we can replace widget with a vbox, and then
             # the road is wide open to start packing other widgets inside it!
             widget = gtk.Label(page + " Inside")
@@ -34,8 +35,13 @@ class PrefDialog():
             vbox.pack_start(widget)
             vbox.pack_start(widget1)
             label = gtk.Label(page)
-            notebook.append_page(vbox,label)
-            
+            notebook.append_page(vbox)
+            # a simple way to set the notebook page label
+            pg = notebook.get_nth_page(idx)
+            notebook.set_tab_label_text(pg, page)
+            import ipdb
+            ipdb.set_trace()
+        
         self.dialog.vbox.pack_start(notebook)
             
     def __init__(self, window):
