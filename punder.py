@@ -45,18 +45,38 @@ class PrefDialog():
         pg.add(another_label)
         
         # populate general tab with proper stuff
-        general = notebook.get_nth_page(0)
-        filechooserbox = gtk.VBox(False)
+        generalpage = notebook.get_nth_page(0)
+        generalvbox = gtk.VBox(False)
         alignment = gtk.Alignment(0,0)
         filechooserlabel = gtk.Label("Destination folder")
         #filechooserlabel.set_justify(gtk.JUSTIFY_LEFT)
         alignment.add(filechooserlabel)
         filechooserbutton = gtk.FileChooserButton("Destination folder")
         filechooserbutton.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
-        filechooserbox.pack_start(alignment, False, False, 0)
-        filechooserbox.pack_start(filechooserbutton,  False, False, 0)
+        generalvbox.pack_start(alignment, False, False, 0)
+        generalvbox.pack_start(filechooserbutton,  False, False, 0)
         
-        general.add(filechooserbox)
+        generalpage.add(generalvbox)
+        
+        # add check button for making m3u playlist
+        make_playlist = gtk.CheckButton("Create M3U playlist")
+        # make default as true
+        make_playlist.set_active(True)
+        generalvbox.pack_start(make_playlist,  False, False, 0)
+        
+        # add the cdrom drive entry inside an hbox
+        hbox = gtk.HBox(False)
+        cdrom_label = gtk.Label("CD-ROM device: ")
+        cdrom = gtk.Entry(128)
+        cdrom.set_tooltip_text("Default: /dev/cdrom\n"
+                               "Other example: /dev/hdc\n"
+                               "Other example: /dev/sr0")
+        hbox.pack_start(cdrom_label, False, False, 0)
+        hbox.pack_start(cdrom, False, False, 0)
+        generalvbox.pack_start(hbox, False,False, 0)
+        
+        eject_cd = gtk.CheckButton("Eject disc when finished")
+        generalvbox.pack_start(eject_cd, False,False, 0)
         
         self.dialog.vbox.pack_start(notebook)
         
