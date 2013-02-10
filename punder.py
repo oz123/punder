@@ -21,7 +21,8 @@ class PrefDialog():
         
     def insert_notebook(self):
         """
-        populate the notebook with the real GUI
+        populate the notebook with widgets.
+        This just here for demo, but not used.
         """
         notebook = gtk.Notebook()
         
@@ -36,14 +37,29 @@ class PrefDialog():
             vbox.pack_start(widget1)
             label = gtk.Label(page)
             notebook.append_page(vbox)
-            # a simple way to set the notebook page label
             pg = notebook.get_nth_page(idx)
             notebook.set_tab_label_text(pg, page)
-            import ipdb
-            ipdb.set_trace()
+        
+        # here is how one can access a single tab    
+        another_label = gtk.Label("Accessed")   
+        pg.add(another_label)
+        
+        # populate general tab with proper stuff
+        general = notebook.get_nth_page(0)
+        filechooserbox = gtk.VBox(False)
+        alignment = gtk.Alignment(0,0)
+        filechooserlabel = gtk.Label("Destination folder")
+        #filechooserlabel.set_justify(gtk.JUSTIFY_LEFT)
+        alignment.add(filechooserlabel)
+        filechooserbutton = gtk.FileChooserButton("Destination folder")
+        filechooserbutton.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
+        filechooserbox.pack_start(alignment)
+        filechooserbox.pack_start(filechooserbutton)
+        
+        general.add(filechooserbox)
         
         self.dialog.vbox.pack_start(notebook)
-            
+        
     def __init__(self, window):
         """
         initialize the preferences dialog
