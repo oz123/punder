@@ -53,8 +53,8 @@ class PrefDialog():
         alignment.add(filechooserlabel)
         filechooserbutton = gtk.FileChooserButton("Destination folder")
         filechooserbutton.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
-        filechooserbox.pack_start(alignment)
-        filechooserbox.pack_start(filechooserbutton)
+        filechooserbox.pack_start(alignment, False, False, 0)
+        filechooserbox.pack_start(filechooserbutton,  False, False, 0)
         
         general.add(filechooserbox)
         
