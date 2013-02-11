@@ -12,40 +12,12 @@ class PrefDialog():
     create the preferences dialog
     """ 
     
-    def insert_label(self):
+    def set_general_page(self):
         """
-        demonstrate a vbox with gtk.label
-        """
-        label = gtk.Label("PyGTK Dialog")       
-        self.dialog.vbox.pack_start(label, True, True, 0)
-        
-    def insert_notebook(self):
-        """
-        populate the notebook with widgets.
-        This just here for demo, but not used.
-        """
-        notebook = gtk.Notebook()
-        
-        for idx, page in enumerate(["General", "File Names", "Encode", 
-            "Advanced"]):
-            # later, we can replace widget with a vbox, and then
-            # the road is wide open to start packing other widgets inside it!
-            widget = gtk.Label(page + " Inside")
-            widget1 = gtk.Label("Second Label")
-            vbox = gtk.VBox(False)
-            vbox.pack_start(widget)
-            vbox.pack_start(widget1)
-            label = gtk.Label(page)
-            notebook.append_page(vbox)
-            pg = notebook.get_nth_page(idx)
-            notebook.set_tab_label_text(pg, page)
-        
-        # here is how one can access a single tab    
-        another_label = gtk.Label("Accessed")   
-        pg.add(another_label)
-        
+        add widgets to the page General
+        """    
         # populate general tab with proper stuff
-        generalpage = notebook.get_nth_page(0)
+        generalpage = self.notebook.get_nth_page(0)
         generalvbox = gtk.VBox(False)
         alignment = gtk.Alignment(0,0)
         filechooserlabel = gtk.Label("Destination folder")
@@ -78,7 +50,24 @@ class PrefDialog():
         eject_cd = gtk.CheckButton("Eject disc when finished")
         generalvbox.pack_start(eject_cd, False,False, 0)
         
-        self.dialog.vbox.pack_start(notebook)
+    def insert_notebook(self):
+        """
+        create a notebook with 4 pages, each containing a gtk.VBox.
+        """
+        
+        self.notebook = gtk.Notebook()
+        
+        for idx, page in enumerate(["General", "File Names", "Encode", 
+            "Advanced"]):
+            # later, we can replace widget with a vbox, and then
+            # the road is wide open to start packing other widgets inside it!
+            vbox = gtk.VBox(False)
+            self.notebook.append_page(vbox)
+            pg = self.notebook.get_nth_page(idx)
+            self.notebook.set_tab_label_text(pg, page)
+        
+        self.set_general_page()
+        self.dialog.vbox.pack_start(self.notebook)
         
     def __init__(self, window):
         """
