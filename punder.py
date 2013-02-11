@@ -76,6 +76,7 @@ class PrefDialog():
         # title, parent, flags (0, for defaults), no buttons
         self.dialog = gtk.Dialog("Preferences", window, 0,
         (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
+
         self.dialog.set_default_size(250, 300)
         
         #self.insert_label()
@@ -91,6 +92,7 @@ class PrefDialog():
             print "The Cancel button was clicked"
         
         self.dialog.destroy()
+
         
 
 class PunderUI():
