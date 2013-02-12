@@ -11,30 +11,29 @@ class PrefDialog():
     """
     create the preferences dialog
     """ 
-    
+
     def set_general_page(self):
         """
         add widgets to the page General
         """    
         # populate general tab with proper stuff
         generalpage = self.notebook.get_nth_page(0)
-        generalvbox = gtk.VBox(False)
         alignment = gtk.Alignment(0,0)
         filechooserlabel = gtk.Label("Destination folder")
         #filechooserlabel.set_justify(gtk.JUSTIFY_LEFT)
         alignment.add(filechooserlabel)
         filechooserbutton = gtk.FileChooserButton("Destination folder")
         filechooserbutton.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
-        generalvbox.pack_start(alignment, False, False, 0)
-        generalvbox.pack_start(filechooserbutton,  False, False, 0)
+        generalpage.pack_start(alignment, False, False, 0)
+        generalpage.pack_start(filechooserbutton,  False, False, 0)
         
-        generalpage.add(generalvbox)
+        #generalpage.add(generalvbox)
         
         # add check button for making m3u playlist
         make_playlist = gtk.CheckButton("Create M3U playlist")
         # make default as true
         make_playlist.set_active(True)
-        generalvbox.pack_start(make_playlist,  False, False, 0)
+        generalpage.pack_start(make_playlist,  False, False, 0)
         
         # add the cdrom drive entry inside an hbox
         hbox = gtk.HBox(False)
@@ -45,16 +44,15 @@ class PrefDialog():
                                "Other example: /dev/sr0")
         hbox.pack_start(cdrom_label, False, False, 0)
         hbox.pack_start(cdrom, False, False, 0)
-        generalvbox.pack_start(hbox, False,False, 0)
+        generalpage.pack_start(hbox, False,False, 0)
         
         eject_cd = gtk.CheckButton("Eject disc when finished")
-        generalvbox.pack_start(eject_cd, False,False, 0)
+        generalpage.pack_start(eject_cd, False,False, 0)
         
     def insert_notebook(self):
         """
         create a notebook with 4 pages, each containing a gtk.VBox.
         """
-        
         self.notebook = gtk.Notebook()
         
         for idx, page in enumerate(["General", "File Names", "Encode", 
@@ -63,12 +61,17 @@ class PrefDialog():
             # the road is wide open to start packing other widgets inside it!
             vbox = gtk.VBox(False)
             self.notebook.append_page(vbox)
+            # note: you could also do
+            # label = gtk.Label(page)
+            # self.notebook.append_page(vbox, tab_label = label)
             pg = self.notebook.get_nth_page(idx)
             self.notebook.set_tab_label_text(pg, page)
         
         self.set_general_page()
+     
         self.dialog.vbox.pack_start(self.notebook)
-        
+   
+    
     def __init__(self, window):
         """
         initialize the preferences dialog
