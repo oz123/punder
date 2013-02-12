@@ -11,7 +11,17 @@ class PrefDialog():
     """
     create the preferences dialog
     """ 
-
+    def set_file_names(self):
+        """
+        add widgets to the page File Names
+        """
+        pg = self.notebook.get_nth_page(1)
+        frame = gtk.Frame("Filenames")
+        hbox_inside = gtk.HBox(False, 0)
+        hbox_inside.pack_start(gtk.Label("Yeah"))
+        frame.add(hbox_inside)
+        pg.pack_start(frame, True, True, 0)
+    
     def set_general_page(self):
         """
         add widgets to the page General
@@ -68,7 +78,7 @@ class PrefDialog():
             self.notebook.set_tab_label_text(pg, page)
         
         self.set_general_page()
-     
+        self.set_file_names()
         self.dialog.vbox.pack_start(self.notebook)
    
     
