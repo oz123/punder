@@ -31,8 +31,11 @@ class PrefDialog():
         vbox_inside.pack_start(filenames_table,  True, True, 0)
         
         album_dir = gtk.Label("Album directory: ")
+        album_dir.set_alignment(0, 0.5)
         playlist_file = gtk.Label("Playlist file: ")
+        playlist_file.set_alignment(0, 0.5)
         music_file = gtk.Label("Playlist file: ")
+        music_file.set_alignment(0, 0.5)
         
         album_entry = gtk.Entry(128)
         # dummy entries, should be later read from the config file
