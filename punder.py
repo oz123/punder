@@ -11,6 +11,33 @@ class PrefDialog():
     """
     create the preferences dialog
     """ 
+    def set_encode(self):
+        """
+        add widgets to the page encoding
+        """
+        pg = self.notebook.get_nth_page(2)
+        pg.set_border_width(5)
+        alignment = gtk.Alignment(0, 0)
+        vbox_inside = gtk.VBox(False, 0)
+        vbox_inside.set_border_width(5)
+        vbox_inside.pack_start(alignment)
+        hbox = gtk.HBox(False,0)
+        ogg_frame = gtk.Frame()
+        mp3_frame = gtk.Frame()
+        text_formaters=gtk.Label("%A - Artist\n%L - Album\n%N - Track number " \
+        + "(2-digit)\n%Y - Year (4-digit or \"0\")\n%T - Song title\n" \
+        + "%G - Genre")
+        
+        ogg = gtk.CheckButton(label="OGG" )
+        ogg_frame.set_label_widget(ogg)
+        
+        mp3 = gtk.CheckButton(label="MP3" )
+        mp3_frame.set_label_widget(mp3)
+        
+        alignment.add(text_formaters)
+        pg.pack_start(ogg_frame, False, False, 0)
+        pg.pack_start(mp3_frame, False, False, 0)
+        
     def set_file_names(self):
         """
         add widgets to the page File Names
@@ -19,7 +46,10 @@ class PrefDialog():
         pg.set_border_width(5)
         alignment = gtk.Alignment(0, 0)
         frame = gtk.Frame("Filename format")
-        alignment.add(gtk.Label("%A - Artist\n%L - Album\n%N - Track number (2-digit)\n%Y - Year (4-digit or \"0\")\n%T - Song title\n%G - Genre"))
+        text_formaters=gtk.Label("%A - Artist\n%L - Album\n%N - Track number " \
+        + "(2-digit)\n%Y - Year (4-digit or \"0\")\n%T - Song title\n" \
+        + "%G - Genre")
+        alignment.add(text_formaters)
         vbox_inside = gtk.VBox(False, 0)
         vbox_inside.set_border_width(5)
         vbox_inside.pack_start(alignment)
@@ -56,7 +86,7 @@ class PrefDialog():
         filenames_table.attach(music_file, 0, 1, 2, 3,  gtk.FILL)
         
         filenames_table.attach(album_entry, 1, 2, 0, 1, gtk.FILL)
-        filenames_table.attach(playlist_entry, 1, 2, 1, 2,  gtk.FILL  |gtk.EXPAND)
+        filenames_table.attach(playlist_entry, 1, 2, 1, 2,  gtk.FILL|gtk.EXPAND)
         filenames_table.attach(musicfile_entry, 1, 2, 2, 3,gtk.FILL)
         
 
@@ -119,6 +149,7 @@ class PrefDialog():
         
         self.set_general_page()
         self.set_file_names()
+        self.set_encode()
         self.dialog.vbox.pack_start(self.notebook)
    
     
