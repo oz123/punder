@@ -16,12 +16,49 @@ class PrefDialog():
         add widgets to the page File Names
         """
         pg = self.notebook.get_nth_page(1)
-        frame = gtk.Frame("Filenames")
-        hbox_inside = gtk.HBox(False, 0)
-        hbox_inside.pack_start(gtk.Label("Yeah"))
-        frame.add(hbox_inside)
-        pg.pack_start(frame, True, True, 0)
-    
+        pg.set_border_width(5)
+        alignment = gtk.Alignment(0, 0)
+        frame = gtk.Frame("Filename format")
+        alignment.add(gtk.Label("%A - Artist\n%L - Album\n%N - Track number (2-digit)\n%Y - Year (4-digit or \"0\")\n%T - Song title\n%G - Genre"))
+        vbox_inside = gtk.VBox(False, 0)
+        vbox_inside.set_border_width(5)
+        vbox_inside.pack_start(alignment)
+        
+        frame.add(vbox_inside)
+
+        # add table to populate more widgets
+        filenames_table = gtk.Table(3, 2, False)
+        vbox_inside.pack_start(filenames_table,  True, True, 0)
+        
+        album_dir = gtk.Label("Album directory: ")
+        playlist_file = gtk.Label("Playlist file: ")
+        music_file = gtk.Label("Playlist file: ")
+        
+        album_entry = gtk.Entry(128)
+        # dummy entries, should be later read from the config file
+        album_entry.set_text("%A - %L")
+        
+        playlist_entry = gtk.Entry(128)
+        # dummy entries, should be later read from the config file
+        playlist_entry.set_text("%A - %L")
+        
+        musicfile_entry = gtk.Entry(128)
+        # dummy entries, should be later read from the config file
+        musicfile_entry.set_text("%N - %A - %T")
+        
+        
+        # album_table.attach(child, left, right, top, bottom)
+        filenames_table.attach(album_dir, 0, 1, 0, 1,  gtk.FILL)
+        filenames_table.attach(playlist_file, 0, 1, 1, 2,  gtk.FILL)
+        filenames_table.attach(music_file, 0, 1, 2, 3,  gtk.FILL)
+        
+        filenames_table.attach(album_entry, 1, 2, 0, 1, gtk.FILL)
+        filenames_table.attach(playlist_entry, 1, 2, 1, 2,  gtk.FILL  |gtk.EXPAND)
+        filenames_table.attach(musicfile_entry, 1, 2, 2, 3,gtk.FILL)
+        
+
+        pg.pack_start(frame, False, False, 0)
+        
     def set_general_page(self):
         """
         add widgets to the page General
@@ -204,7 +241,7 @@ class PunderUI():
         # if you set a button to not important, it's text label
         # will not be shown!
         # unlike button2.set_is_important(True)
-        button_about.set_is_important(False)
+        button_about.set_is_important(True)
         
         # with .connect we make a button do something
         # in this case, the event clicked will trigger
