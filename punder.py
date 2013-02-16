@@ -21,12 +21,13 @@ class PrefDialog():
         vbox_inside = gtk.VBox(False, 0)
         vbox_inside.set_border_width(5)
         vbox_inside.pack_start(alignment)
-        hbox = gtk.HBox(False,0)
+        
+        ogg_hbox = gtk.HBox(False,0)
+        qLabel = gtk.Label("Quality")
+        qLabel.set_alignment(5,0)
+
         ogg_frame = gtk.Frame()
         mp3_frame = gtk.Frame()
-        text_formaters=gtk.Label("%A - Artist\n%L - Album\n%N - Track number " \
-        + "(2-digit)\n%Y - Year (4-digit or \"0\")\n%T - Song title\n" \
-        + "%G - Genre")
         
         ogg = gtk.CheckButton(label="OGG" )
         ogg_frame.set_label_widget(ogg)
@@ -34,7 +35,15 @@ class PrefDialog():
         mp3 = gtk.CheckButton(label="MP3" )
         mp3_frame.set_label_widget(mp3)
         
-        alignment.add(text_formaters)
+        vboxogg = gtk.VBox()
+        ogg_frame.add(ogg_hbox)
+        scroll = gtk.HScale()
+        scroll.set_value_pos(gtk.POS_RIGHT)
+        ogg_hbox.pack_start(qLabel, False, False, 5)
+        ogg_hbox.pack_start(scroll, True, True, 5)
+        
+        
+        
         pg.pack_start(ogg_frame, False, False, 0)
         pg.pack_start(mp3_frame, False, False, 0)
         
