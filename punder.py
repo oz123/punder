@@ -55,9 +55,10 @@ class PrefDialog():
         pg.set_border_width(5)
         alignment = gtk.Alignment(0, 0)
         frame = gtk.Frame("Filename format")
-        text_formaters=gtk.Label("%A - Artist\n%L - Album\n%N - Track number " \
+        text_formaters = gtk.Label("%A - Artist\n%L - Album\n%N - Track number " \
         + "(2-digit)\n%Y - Year (4-digit or \"0\")\n%T - Song title\n" \
         + "%G - Genre")
+        
         alignment.add(text_formaters)
         vbox_inside = gtk.VBox(False, 0)
         vbox_inside.set_border_width(5)
@@ -73,21 +74,29 @@ class PrefDialog():
         album_dir.set_alignment(0, 0.5)
         playlist_file = gtk.Label("Playlist file: ")
         playlist_file.set_alignment(0, 0.5)
-        music_file = gtk.Label("Playlist file: ")
+        music_file = gtk.Label("Music file: ")
         music_file.set_alignment(0, 0.5)
         
         album_entry = gtk.Entry(128)
         # dummy entries, should be later read from the config file
         album_entry.set_text("%A - %L")
-        
+        album_entry.set_tooltip_text("This is relative to the destination folder (from the General tab).\n"
+                                                        "Can be blank.\n"
+                                                        "Default: %A - %L\n"
+                                                        "Other example: %A/%L")        
         playlist_entry = gtk.Entry(128)
         # dummy entries, should be later read from the config file
         playlist_entry.set_text("%A - %L")
-        
+        playlist_entry.set_tooltip_text("This will be stored in the album directory.\n"
+                                                        "Can be blank.\n"
+                                                        "Default: %A - %L")
         musicfile_entry = gtk.Entry(128)
         # dummy entries, should be later read from the config file
         musicfile_entry.set_text("%N - %A - %T")
-        
+        musicfile_entry.set_tooltip_text("This will be stored in the album directory.\n"
+                                                     "Cannot be blank.\n"
+                                                     "Default: %A - %T\n"
+                                                     "Other example: %N - %T")
         
         # album_table.attach(child, left, right, top, bottom)
         filenames_table.attach(album_dir, 0, 1, 0, 1,  gtk.FILL)
@@ -128,6 +137,7 @@ class PrefDialog():
         hbox = gtk.HBox(False)
         cdrom_label = gtk.Label("CD-ROM device: ")
         cdrom = gtk.Entry(128)
+        cdrom.set_text("/dev/sr0")
         cdrom.set_tooltip_text("Default: /dev/cdrom\n"
                                "Other example: /dev/hdc\n"
                                "Other example: /dev/sr0")
