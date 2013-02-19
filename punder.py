@@ -28,13 +28,12 @@ class PrefDialog():
 
         ogg_frame = gtk.Frame()
         mp3_frame = gtk.Frame()
+        flac_frame = gtk.Frame()
         
+        #OGG
         ogg = gtk.CheckButton(label="OGG" )
         ogg_frame.set_label_widget(ogg)
-        
-        mp3 = gtk.CheckButton(label="MP3" )
-        mp3_frame.set_label_widget(mp3)
-        
+      
         vboxogg = gtk.VBox()
         ogg_frame.add(ogg_hbox)
         scroll = gtk.HScale()
@@ -42,10 +41,40 @@ class PrefDialog():
         ogg_hbox.pack_start(qLabel, False, False, 5)
         ogg_hbox.pack_start(scroll, True, True, 5)
         
+        #MP3
+        mp3 = gtk.CheckButton(label="MP3" )
+        mp3_frame.set_label_widget(mp3)
+        mp3_hbox = gtk.HBox(False,0)
+        bitrate_Label = gtk.Label("Bitrate")
+        bitrate_Label.set_alignment(5,0)
+        
+        scroll_mp3 = gtk.HScale()
+        scroll_mp3.set_value_pos(gtk.POS_RIGHT)
+        mp3_hbox.pack_start(bitrate_Label, False, False, 5)
+        mp3_hbox.pack_start(scroll_mp3, True, True, 5)
+        vboxmp3 = gtk.VBox()
+        vboxmp3.pack_start(mp3_hbox)
+        mp3_frame.add(vboxmp3)
+        
+        # FLAC
+        flac = gtk.CheckButton(label="FLAC" )
+        flac_frame.set_label_widget(flac)
+        flac_hbox = gtk.HBox(False,0)
+        compression_Label = gtk.Label("Compression level")
+        compression_Label.set_alignment(5,0)
+        
+        scroll_flac = gtk.HScale()
+        scroll_flac.set_value_pos(gtk.POS_RIGHT)
+        flac_hbox.pack_start(compression_Label, False, False, 5)
+        flac_hbox.pack_start(scroll_flac, True, True, 5)
+        vboxflac = gtk.VBox()
+        vboxflac.pack_start(flac_hbox)
+        flac_frame.add(vboxflac)
         
         
         pg.pack_start(ogg_frame, False, False, 0)
         pg.pack_start(mp3_frame, False, False, 0)
+        pg.pack_start(flac_frame, False, False, 0)
         
     def set_file_names(self):
         """
