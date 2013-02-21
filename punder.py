@@ -30,31 +30,38 @@ class PrefDialog():
         mp3_frame = gtk.Frame()
         flac_frame = gtk.Frame()
         
-        #OGG
-        ogg = gtk.CheckButton(label="OGG" )
-        ogg_frame.set_label_widget(ogg)
-      
-        vboxogg = gtk.VBox()
-        ogg_frame.add(ogg_hbox)
-        scroll = gtk.HScale()
-        scroll.set_value_pos(gtk.POS_RIGHT)
-        ogg_hbox.pack_start(qLabel, False, False, 5)
-        ogg_hbox.pack_start(scroll, True, True, 5)
-        
         #MP3
         mp3 = gtk.CheckButton(label="MP3" )
         mp3_frame.set_label_widget(mp3)
         mp3_hbox = gtk.HBox(False,0)
         bitrate_Label = gtk.Label("Bitrate")
         bitrate_Label.set_alignment(5,0)
+        adj_mp3 = gtk.Adjustment(0, 0, 14, 1, 1, 1)
+        scroll_mp3 = gtk.HScale(adj_mp3)
+        scroll_mp3.set_digits(0)
         
-        scroll_mp3 = gtk.HScale()
         scroll_mp3.set_value_pos(gtk.POS_RIGHT)
         mp3_hbox.pack_start(bitrate_Label, False, False, 5)
         mp3_hbox.pack_start(scroll_mp3, True, True, 5)
         vboxmp3 = gtk.VBox()
         vboxmp3.pack_start(mp3_hbox)
         mp3_frame.add(vboxmp3)
+        
+        #OGG
+        ogg = gtk.CheckButton(label="OGG" )
+        ogg_frame.set_label_widget(ogg)
+      
+        vboxogg = gtk.VBox()
+        ogg_frame.add(ogg_hbox)
+        adj_ogg = gtk.Adjustment(0.0, 0.0, 11.0, 0.1, 1.0, 1.0)
+        ogg_scale = gtk.HScale(adj_ogg)
+        ogg_scale.set_value_pos(gtk.POS_RIGHT)
+        ogg_scale.set_digits(0)
+        ogg_scale.set_update_policy(gtk.UPDATE_CONTINUOUS)
+        ogg_scale.set_draw_value(True)
+        ogg_hbox.pack_start(qLabel, False, False, 5)
+        ogg_hbox.pack_start(ogg_scale, True, True, 5)
+        
         
         # FLAC
         flac = gtk.CheckButton(label="FLAC" )
