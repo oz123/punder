@@ -300,7 +300,7 @@ class PunderUI():
         close button
         """
         self.about = gtk.AboutDialog()
-        sometext=gtk.Label('This is just the beggining.\nWill Get back to later.')
+        sometext=gtk.Label('This is just the beggining.\nWill Get back to it  later.')
         self.about.vbox.pack_start(sometext)
         self.about.show_all()
         result = self.about.run()
