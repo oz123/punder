@@ -31,7 +31,7 @@ class PrefDialog():
         flac_frame = gtk.Frame()
         
         #MP3
-        mp3 = gtk.CheckButton(label="MP3" )
+        mp3 = gtk.CheckButton(label="MP3 (lossy compression)" )
         mp3_frame.set_label_widget(mp3)
         mp3_hbox = gtk.HBox(False,0)
         bitrate_Label = gtk.Label("Bitrate")
@@ -48,7 +48,7 @@ class PrefDialog():
         mp3_frame.add(vboxmp3)
         
         #OGG
-        ogg = gtk.CheckButton(label="OGG" )
+        ogg = gtk.CheckButton(label="OGG Vorbis  (lossy compression)" )
         ogg_frame.set_label_widget(ogg)
       
         vboxogg = gtk.VBox()
@@ -64,24 +64,54 @@ class PrefDialog():
         
         
         # FLAC
-        flac = gtk.CheckButton(label="FLAC" )
+        flac = gtk.CheckButton(label="FLAC (lossless compression)" )
         flac_frame.set_label_widget(flac)
         flac_hbox = gtk.HBox(False,0)
         compression_Label = gtk.Label("Compression level")
         compression_Label.set_alignment(5,0)
         
-        scroll_flac = gtk.HScale()
+        adj_flac = gtk.Adjustment(0.0, 0.0, 9.0, 0.1, 1.0, 1.0)
+        scroll_flac = gtk.HScale(adj_flac)
         scroll_flac.set_value_pos(gtk.POS_RIGHT)
+        scroll_flac.set_digits(0)
         flac_hbox.pack_start(compression_Label, False, False, 5)
         flac_hbox.pack_start(scroll_flac, True, True, 5)
         vboxflac = gtk.VBox()
         vboxflac.pack_start(flac_hbox)
         flac_frame.add(vboxflac)
         
+        # Other formats
+        expander = gtk.Expander(label="More formats")
+
+        # WAV PACK
+        wv_pk_frame = gtk.Frame()
         
-        pg.pack_start(ogg_frame, False, False, 0)
+        wv_pk = gtk.CheckButton(label="WavPack" )
+        wv_pk_frame.set_label_widget(wv_pk)
+        wvpk_hbox = gtk.HBox(False,0)
+        compression_wv_pk = gtk.Label("Compression level")
+        compression_wv_pk.set_alignment(5,0)
+        
+        adj_wv_pk = gtk.Adjustment(0.0, 0.0, 9.0, 0.1, 1.0, 1.0)
+        scroll_wv_pk = gtk.HScale(adj_wv_pk)
+        scroll_wv_pk.set_value_pos(gtk.POS_RIGHT)
+        scroll_wv_pk.set_digits(0)
+        wvpk_hbox.pack_start(compression_wv_pk, False, False, 5)
+        wvpk_hbox.pack_start(scroll_wv_pk, True, True, 5)
+        vboxwvpk = gtk.VBox()
+        vboxwvpk.pack_start(wvpk_hbox)
+        wv_pk_frame.add(vboxwvpk)
+        
+        expander.add(wv_pk_frame)
+
+        # WAV
+        wv_bttn = gtk.CheckButton(label="WAV (Uncompressed)")
+        
+        pg.pack_start(wv_bttn, False, False, 0)
         pg.pack_start(mp3_frame, False, False, 0)
+        pg.pack_start(ogg_frame, False, False, 0)
         pg.pack_start(flac_frame, False, False, 0)
+        pg.pack_start(expander)
         
     def set_file_names(self):
         """
