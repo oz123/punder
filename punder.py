@@ -105,14 +105,23 @@ class PrefDialog():
         
         hybrid_button = gtk.CheckButton(label="Hybrid Compression")
         hybrid_frame.set_label_widget(hybrid_button)
+        hybrid_alignment = gtk.Alignment(0.5, 0.5, 1, 1)
+        hybrid_alignment.add(hybrid_frame)
+        hybrid_alignment.set_padding(2, 2, 12, 2)
+        adj_hybrid = gtk.Adjustment(0.0, 0.0, 9.0, 0.1, 1.0, 1.0)
+        scroll_hybrid = gtk.HScale(adj_hybrid)
+        scroll_hybrid.set_value_pos(gtk.POS_RIGHT)
+        scroll_hybrid.set_digits(0)
         
-        hybrid_frame.add(gtk.Label("I am here"))
+        hybrid_hbox = gtk.HBox(False,0)
+        bitrate_hybrid_label = gtk.Label("Bitrate")
+        bitrate_hybrid_label.set_alignment(5,0)
         
-        
-        vbox_wv_pk.pack_start(hybrid_frame)
-        
-        
-        
+        hybrid_hbox.pack_start(bitrate_hybrid_label, False, False, 5)
+        hybrid_hbox.pack_start(scroll_hybrid)
+
+        hybrid_frame.add(hybrid_hbox)
+        vbox_wv_pk.pack_start(hybrid_alignment,True, True, 5)
         expander.add(wv_pk_frame)
 
         # WAV
