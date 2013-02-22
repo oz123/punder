@@ -85,7 +85,7 @@ class PrefDialog():
 
         # WAV PACK
         wv_pk_frame = gtk.Frame()
-        
+        hybrid_frame = gtk.Frame()        
         wv_pk = gtk.CheckButton(label="WavPack" )
         wv_pk_frame.set_label_widget(wv_pk)
         wvpk_hbox = gtk.HBox(False,0)
@@ -98,9 +98,20 @@ class PrefDialog():
         scroll_wv_pk.set_digits(0)
         wvpk_hbox.pack_start(compression_wv_pk, False, False, 5)
         wvpk_hbox.pack_start(scroll_wv_pk, True, True, 5)
-        vboxwvpk = gtk.VBox()
-        vboxwvpk.pack_start(wvpk_hbox)
-        wv_pk_frame.add(vboxwvpk)
+        
+        vbox_wv_pk = gtk.VBox()
+        vbox_wv_pk.pack_start(wvpk_hbox)
+        wv_pk_frame.add(vbox_wv_pk)
+        
+        hybrid_button = gtk.CheckButton(label="Hybrid Compression")
+        hybrid_frame.set_label_widget(hybrid_button)
+        
+        hybrid_frame.add(gtk.Label("I am here"))
+        
+        
+        vbox_wv_pk.pack_start(hybrid_frame)
+        
+        
         
         expander.add(wv_pk_frame)
 
