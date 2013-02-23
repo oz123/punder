@@ -126,7 +126,7 @@ class PrefDialog():
         # MUSEPACK
         musepk_frame = gtk.Frame()
         musepk_button = gtk.CheckButton(label="Musepack (lossy compression)" )
-        musepk_frame.set_label_widget(flac)
+        musepk_frame.set_label_widget(musepk_button)
         musepk_hbox = gtk.HBox(False,0)
         musepk_compression_Label = gtk.Label("Compression level")
         musepk_compression_Label.set_alignment(5,0)
@@ -135,14 +135,16 @@ class PrefDialog():
         scroll_musepk.set_value_pos(gtk.POS_RIGHT)
         scroll_musepk.set_digits(0)
         musepk_hbox.pack_start(musepk_compression_Label, False, False, 5)
-        musepk_hbox.pack_start(scroll_flac, True, True, 5)
+        musepk_hbox.pack_start(scroll_musepk, True, True, 5)
         vboxmusepk = gtk.VBox()
         vboxmusepk.pack_start(musepk_hbox)
         musepk_frame.add(vboxmusepk)
         
-        # add frames to expander
-        expander.add(wv_pk_frame)
-        expander.add(musepk_frame)
+        # add frames to expander packed inside VBox
+        vbox_in_expander = gtk.VBox(False)
+        vbox_in_expander.pack_start(wv_pk_frame)
+        vbox_in_expander.pack_start(musepk_frame)
+        expander.add(vbox_in_expander)
         
         # WAV
         wv_bttn = gtk.CheckButton(label="WAV (Uncompressed)")
