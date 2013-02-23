@@ -128,7 +128,7 @@ class PrefDialog():
         musepk_button = gtk.CheckButton(label="Musepack (lossy compression)" )
         musepk_frame.set_label_widget(musepk_button)
         musepk_hbox = gtk.HBox(False,0)
-        musepk_compression_Label = gtk.Label("Compression level")
+        musepk_compression_Label = gtk.Label("Bitrate")
         musepk_compression_Label.set_alignment(5,0)
         adj_musepk = gtk.Adjustment(0.0, 0.0, 6.0, 0.1, 1.0, 1.0)
         scroll_musepk = gtk.HScale(adj_musepk)
@@ -140,10 +140,29 @@ class PrefDialog():
         vboxmusepk.pack_start(musepk_hbox)
         musepk_frame.add(vboxmusepk)
         
+        # MONKEYAUDIO
+        monkey_frame = gtk.Frame()
+        monkey_button = gtk.CheckButton(label="Monkey's audio (lossless compression)" )
+        monkey_frame.set_label_widget(monkey_button)
+        monkey_hbox = gtk.HBox(False,0)
+        monkey_compression_Label = gtk.Label("Compression level")
+        monkey_compression_Label.set_alignment(5,0)
+        adj_monkey = gtk.Adjustment(0.0, 0.0, 5.0, 0.1, 1.0, 1.0)
+        scroll_monkey = gtk.HScale(adj_monkey)
+        scroll_monkey.set_value_pos(gtk.POS_RIGHT)
+        scroll_monkey.set_digits(0)
+        monkey_hbox.pack_start(monkey_compression_Label, False, False, 5)
+        monkey_hbox.pack_start(scroll_monkey, True, True, 5)
+        vboxmonkey = gtk.VBox()
+        vboxmonkey.pack_start(monkey_hbox)
+        monkey_frame.add(vboxmonkey)
+
+
         # add frames to expander packed inside VBox
         vbox_in_expander = gtk.VBox(False)
         vbox_in_expander.pack_start(wv_pk_frame)
         vbox_in_expander.pack_start(musepk_frame)
+        vbox_in_expander.pack_start(monkey_frame)
         expander.add(vbox_in_expander)
         
         # WAV
@@ -289,8 +308,7 @@ class PrefDialog():
         (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
 
         self.dialog.set_default_size(250, 300)
-        
-        #self.insert_label()
+
         self.insert_notebook()
         response = self.dialog.show_all()
         response = self.dialog.run()
