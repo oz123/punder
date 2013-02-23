@@ -82,7 +82,7 @@ class PrefDialog():
         
         # Other formats
         expander = gtk.Expander(label="More formats")
-
+      
         # WAV PACK
         wv_pk_frame = gtk.Frame()
         hybrid_frame = gtk.Frame()        
@@ -160,11 +160,35 @@ class PrefDialog():
 
         # add frames to expander packed inside VBox
         vbox_in_expander = gtk.VBox(False)
-        vbox_in_expander.pack_start(wv_pk_frame)
-        vbox_in_expander.pack_start(musepk_frame)
-        vbox_in_expander.pack_start(monkey_frame)
+        vbox_in_expander.pack_start(wv_pk_frame, False, True, 0)
+        vbox_in_expander.pack_start(musepk_frame, False, True, 0)
+        vbox_in_expander.pack_start(monkey_frame, False, True, 0)
         expander.add(vbox_in_expander)
+                
+        expander_prop = gtk.Expander(label="Proprietary formats")
+
+        # AAC
+        aac_frame = gtk.Frame()
+        aac_button = gtk.CheckButton(label="AAC (lossy compression, Nero encoder)" )
+        aac_frame.set_label_widget(aac_button)
+        aac_hbox = gtk.HBox(False,0)
+        aac_compression_Label = gtk.Label("Quality")
+        aac_compression_Label.set_alignment(5,0)
+        adj_aac = gtk.Adjustment(0.0, 0.0, 101, 0.1, 1.0, 1.0)
+        scroll_aac = gtk.HScale(adj_aac)
+        scroll_aac.set_value_pos(gtk.POS_RIGHT)
+        scroll_aac.set_digits(0)
+        aac_hbox.pack_start(aac_compression_Label, False, False, 5)
+        aac_hbox.pack_start(scroll_aac, True, True, 5)
+        vboxaac = gtk.VBox()
+        vboxaac.pack_start(aac_hbox)
+        aac_frame.add(vboxaac)
         
+        vbox_in_expander_prop = gtk.VBox(False)
+        vbox_in_expander_prop.pack_start(aac_frame)
+        expander_prop.add(vbox_in_expander_prop)
+        
+
         # WAV
         wv_bttn = gtk.CheckButton(label="WAV (Uncompressed)")
         
@@ -172,7 +196,8 @@ class PrefDialog():
         pg.pack_start(mp3_frame, False, False, 0)
         pg.pack_start(ogg_frame, False, False, 0)
         pg.pack_start(flac_frame, False, False, 0)
-        pg.pack_start(expander)
+        pg.pack_start(expander,False, False, 5)
+        pg.pack_start(expander_prop,False, False, 0)
         
     def set_file_names(self):
         """
