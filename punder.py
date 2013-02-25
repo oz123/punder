@@ -5,7 +5,11 @@ punder - part two, populating a table with child widgets
 UI is almost ready, tree view for track list is populated.
 """
 
+
 import gtk
+
+#def disable_widget(widget):
+    
 
 class PrefDialog():
     """
@@ -104,8 +108,12 @@ class PrefDialog():
         flac_frame = gtk.Frame()
         
         #MP3
+        alignment_mp3 = gtk.Alignment(0.5, 0.5, 1, 1)
+        alignment_mp3.set_padding(2, 2, 12, 2)
         mp3 = gtk.CheckButton(label="MP3 (lossy compression)" )
         mp3_frame.set_label_widget(mp3)
+        vbr_bttn = gtk.CheckButton(label="Variable bit rate (VBR)")
+        
         mp3_hbox = gtk.HBox(False,0)
         bitrate_Label = gtk.Label("Bitrate")
         bitrate_Label.set_alignment(5,0)
@@ -114,11 +122,13 @@ class PrefDialog():
         scroll_mp3.set_digits(0)
         
         scroll_mp3.set_value_pos(gtk.POS_RIGHT)
-        mp3_hbox.pack_start(bitrate_Label, False, False, 5)
+        mp3_hbox.pack_start(bitrate_Label, False, False, 0)
         mp3_hbox.pack_start(scroll_mp3, True, True, 5)
         vboxmp3 = gtk.VBox()
+        vboxmp3.pack_start(vbr_bttn)
         vboxmp3.pack_start(mp3_hbox)
-        mp3_frame.add(vboxmp3)
+        alignment_mp3.add(vboxmp3)
+        mp3_frame.add(alignment_mp3)
         
         #OGG
         ogg = gtk.CheckButton(label="OGG Vorbis  (lossy compression)" )
