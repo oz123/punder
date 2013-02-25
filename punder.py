@@ -480,8 +480,8 @@ class PunderUI():
         column_titles = ["Track", "Artist", "Title", "Duration"]
         for idx, title in enumerate(column_titles):
             rendererText = gtk.CellRendererText()
-            column = gtk.TreeViewColumn(title, rendererText, text=idx)
-            column.set_sort_column_id(idx)
+            column = gtk.TreeViewColumn(title, rendererText, text=idx+1)
+            column.set_sort_column_id(idx+1)
             treeView.append_column(column)
 
 
