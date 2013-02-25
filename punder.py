@@ -11,6 +11,79 @@ class PrefDialog():
     """
     create the preferences dialog
     """ 
+    def set_advanced(self):
+        """
+        add widgets to the advanced tab
+        """
+        pg = self.notebook.get_nth_page(3)
+        pg.set_border_width(5)
+        #alignment = gtk.Alignment(0, 0)
+        #vbox_inside = gtk.VBox(False, 0)
+        #vbox_inside.set_border_width(5)
+        #vbox_inside.pack_start(alignment)
+        
+        cddb_frame = gtk.Frame("CDDB")
+        vbox_cddb = gtk.VBox(False, 0)
+        cddb_frame.add(vbox_cddb)
+        info_bttn = gtk.CheckButton(label="Get disc info from the internet automatically")
+        vbox_cddb.pack_start(info_bttn)
+        
+        hbox_server = gtk.HBox(False, 0)
+        server_label = gtk.Label("Server:")
+        server_input =  gtk.Entry(128)
+        # dummy entries, should be later read from the config file
+        server_input.set_text("freedb.freedb.org")
+        #box.pack_start(child, expand, fill, padding)
+        hbox_server.pack_start(server_label, False, True, 5)
+        hbox_server.pack_start(server_input, True, True, 5)
+        
+        hbox_port = gtk.HBox(False, 0)
+        port_label = gtk.Label("Port:")
+        port_input =  gtk.Entry(128)
+        # dummy entries, should be later read from the config file
+        port_input.set_text("8880")
+        #box.pack_start(child, expand, fill, padding)
+        hbox_port.pack_start(port_label, False, True, 5)
+        hbox_port.pack_start(port_input, True, True, 5)
+  
+        vbox_cddb.pack_start(hbox_server)
+        vbox_cddb.pack_start(hbox_port)
+        
+        # add all widgets proxy frame
+        proxy_frame = gtk.Frame()
+        proxy_bttn = gtk.CheckButton(label="Use an HTTP proxy to connect to the internet" )
+        proxy_frame.set_label_widget(proxy_bttn)
+        
+        vbox_proxy = gtk.VBox(False, 0)
+        proxy_frame.add(vbox_proxy)
+        hbox_proxy_server = gtk.HBox(False, 0)  
+        proxy_server_label = gtk.Label("Server:")
+        proxy_server_input =  gtk.Entry(128)
+        # dummy entries, should be later read from the config file
+        proxy_server_input.set_text("10.0.0.1")
+        #box.pack_start(child, expand, fill, padding)
+        hbox_proxy_server.pack_start(proxy_server_label, False, True, 5)
+        hbox_proxy_server.pack_start(proxy_server_input, True, True, 5)
+        
+        proxy_hbox_port = gtk.HBox(False, 0)
+        proxy_port_label = gtk.Label("Port:")
+        proxy_port_input =  gtk.Entry(128)
+        # dummy entries, should be later read from the config file
+        proxy_port_input.set_text("8080")
+        #box.pack_start(child, expand, fill, padding)
+        proxy_hbox_port.pack_start(proxy_port_label, False, True, 5)
+        proxy_hbox_port.pack_start(proxy_port_input, True, True, 5)
+        
+        
+        vbox_proxy.pack_start(hbox_proxy_server)
+        vbox_proxy.pack_start(proxy_hbox_port)
+        
+        log_bttn = gtk.CheckButton(label="Log to /tmp/asunder.log")
+        
+        pg.pack_start(cddb_frame, False, False, 0)
+        pg.pack_start(proxy_frame, False, False, 0)
+        pg.pack_start(log_bttn, False, False, 0)
+        
     def set_encode(self):
         """
         add widgets to the page encoding
@@ -321,6 +394,7 @@ class PrefDialog():
         self.set_general_page()
         self.set_file_names()
         self.set_encode()
+        self.set_advanced()
         self.dialog.vbox.pack_start(self.notebook)
    
     
