@@ -8,13 +8,20 @@ UI is almost ready, tree view for track list is populated.
 
 import gtk
 
-#def disable_widget(widget):
-    
-
 class PrefDialog():
     """
     create the preferences dialog
     """ 
+    def toggle_widgets(self, button, widget_list):
+        """
+        make the widgets inside the MP3/OGG/etc Frame sensitive or 
+        insensitive (grayed) according to the state of
+        the CheckButton 
+        """
+        for widget in widget_list:
+            widget.set_sensitive(button.get_active())
+        
+        
     def set_advanced(self):
         """
         add widgets to the advanced tab
@@ -113,13 +120,18 @@ class PrefDialog():
         mp3 = gtk.CheckButton(label="MP3 (lossy compression)" )
         mp3_frame.set_label_widget(mp3)
         vbr_bttn = gtk.CheckButton(label="Variable bit rate (VBR)")
-        
+    
         mp3_hbox = gtk.HBox(False,0)
         bitrate_Label = gtk.Label("Bitrate")
         bitrate_Label.set_alignment(5,0)
         adj_mp3 = gtk.Adjustment(0, 0, 14, 1, 1, 1)
         scroll_mp3 = gtk.HScale(adj_mp3)
         scroll_mp3.set_digits(0)
+        
+        # connect mp3 to some function
+        mp3.connect("toggled", self.toggle_widgets, [bitrate_Label, vbr_bttn ,scroll_mp3])
+        # this will make the widgets insensitive
+        self.toggle_widgets(mp3, [bitrate_Label, vbr_bttn ,scroll_mp3])
         
         scroll_mp3.set_value_pos(gtk.POS_RIGHT)
         mp3_hbox.pack_start(bitrate_Label, False, False, 0)
