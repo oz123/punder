@@ -62,7 +62,7 @@ class PrefDialog():
         
         # add all widgets proxy frame
         proxy_frame = gtk.Frame()
-        proxy_bttn = gtk.CheckButton(label="Use an HTTP proxy to connect to the internet" )
+        proxy_bttn = gtk.CheckButton(label="Use an HTTP proxy to connect to the internet")
         proxy_frame.set_label_widget(proxy_bttn)
         
         vbox_proxy = gtk.VBox(False, 0)
@@ -106,10 +106,6 @@ class PrefDialog():
         vbox_inside.set_border_width(5)
         vbox_inside.pack_start(alignment)
         
-        ogg_hbox = gtk.HBox(False,0)
-        qLabel = gtk.Label("Quality")
-        qLabel.set_alignment(5,0)
-
         ogg_frame = gtk.Frame()
         mp3_frame = gtk.Frame()
         flac_frame = gtk.Frame()
@@ -143,9 +139,13 @@ class PrefDialog():
         mp3_frame.add(alignment_mp3)
         
         #OGG
-        ogg = gtk.CheckButton(label="OGG Vorbis  (lossy compression)" )
+        ogg = gtk.CheckButton(label="OGG Vorbis  (lossy compression)")
         ogg_frame.set_label_widget(ogg)
-      
+        
+        ogg_hbox = gtk.HBox(False,0)
+        qLabel = gtk.Label("Quality")
+        qLabel.set_alignment(5,0)
+
         vboxogg = gtk.VBox()
         ogg_frame.add(ogg_hbox)
         adj_ogg = gtk.Adjustment(0.0, 0.0, 11.0, 0.1, 1.0, 1.0)
@@ -157,6 +157,8 @@ class PrefDialog():
         ogg_hbox.pack_start(qLabel, False, False, 5)
         ogg_hbox.pack_start(ogg_scale, True, True, 5)
         
+        ogg.connect("toggled", self.toggle_widgets, [qLabel, ogg_scale])
+        self.toggle_widgets(mp3, [qLabel, ogg_scale])
         
         # FLAC
         flac = gtk.CheckButton(label="FLAC (lossless compression)" )
@@ -169,6 +171,10 @@ class PrefDialog():
         scroll_flac = gtk.HScale(adj_flac)
         scroll_flac.set_value_pos(gtk.POS_RIGHT)
         scroll_flac.set_digits(0)
+        
+        flac.connect("toggled", self.toggle_widgets, [compression_Label, scroll_flac])
+        self.toggle_widgets(flac ,[compression_Label, scroll_flac])
+        
         flac_hbox.pack_start(compression_Label, False, False, 5)
         flac_hbox.pack_start(scroll_flac, True, True, 5)
         vboxflac = gtk.VBox()
@@ -212,6 +218,12 @@ class PrefDialog():
         bitrate_hybrid_label = gtk.Label("Bitrate")
         bitrate_hybrid_label.set_alignment(5,0)
         
+        wv_pk.connect("toggled", self.toggle_widgets, [bitrate_hybrid_label, 
+             compression_wv_pk, scroll_wv_pk, hybrid_button, scroll_hybrid])
+        self.toggle_widgets(wv_pk ,[bitrate_hybrid_label, 
+             compression_wv_pk, scroll_wv_pk, hybrid_button, 
+             scroll_hybrid])
+        
         hybrid_hbox.pack_start(bitrate_hybrid_label, False, False, 5)
         hybrid_hbox.pack_start(scroll_hybrid)
 
@@ -220,7 +232,7 @@ class PrefDialog():
         
         # MUSEPACK
         musepk_frame = gtk.Frame()
-        musepk_button = gtk.CheckButton(label="Musepack (lossy compression)" )
+        musepk_button = gtk.CheckButton(label="Musepack (lossy compression)")
         musepk_frame.set_label_widget(musepk_button)
         musepk_hbox = gtk.HBox(False,0)
         musepk_compression_Label = gtk.Label("Bitrate")
@@ -229,6 +241,11 @@ class PrefDialog():
         scroll_musepk = gtk.HScale(adj_musepk)
         scroll_musepk.set_value_pos(gtk.POS_RIGHT)
         scroll_musepk.set_digits(0)
+        
+        musepk_button.connect("toggled", self.toggle_widgets, 
+                       [musepk_compression_Label, scroll_musepk])
+        self.toggle_widgets(musepk_button ,[musepk_compression_Label, 
+                        scroll_musepk])
         musepk_hbox.pack_start(musepk_compression_Label, False, False, 5)
         musepk_hbox.pack_start(scroll_musepk, True, True, 5)
         vboxmusepk = gtk.VBox()
@@ -246,6 +263,11 @@ class PrefDialog():
         scroll_monkey = gtk.HScale(adj_monkey)
         scroll_monkey.set_value_pos(gtk.POS_RIGHT)
         scroll_monkey.set_digits(0)
+        
+        monkey_button.connect("toggled", self.toggle_widgets, 
+                       [monkey_compression_Label, scroll_monkey])
+        self.toggle_widgets(musepk_button ,[monkey_compression_Label, 
+                        scroll_monkey])
         monkey_hbox.pack_start(monkey_compression_Label, False, False, 5)
         monkey_hbox.pack_start(scroll_monkey, True, True, 5)
         vboxmonkey = gtk.VBox()
@@ -264,7 +286,7 @@ class PrefDialog():
 
         # AAC
         aac_frame = gtk.Frame()
-        aac_button = gtk.CheckButton(label="AAC (lossy compression, Nero encoder)" )
+        aac_button = gtk.CheckButton(label="AAC (lossy compression, Nero encoder)")
         aac_frame.set_label_widget(aac_button)
         aac_hbox = gtk.HBox(False,0)
         aac_compression_Label = gtk.Label("Quality")
@@ -273,6 +295,12 @@ class PrefDialog():
         scroll_aac = gtk.HScale(adj_aac)
         scroll_aac.set_value_pos(gtk.POS_RIGHT)
         scroll_aac.set_digits(0)
+        
+        aac_button.connect("toggled", self.toggle_widgets, 
+                       [aac_compression_Label, scroll_aac])
+        self.toggle_widgets(musepk_button ,[aac_compression_Label, 
+                        scroll_aac])
+                        
         aac_hbox.pack_start(aac_compression_Label, False, False, 5)
         aac_hbox.pack_start(scroll_aac, True, True, 5)
         vboxaac = gtk.VBox()
@@ -283,7 +311,6 @@ class PrefDialog():
         vbox_in_expander_prop.pack_start(aac_frame)
         expander_prop.add(vbox_in_expander_prop)
         
-
         # WAV
         wv_bttn = gtk.CheckButton(label="WAV (Uncompressed)")
         
