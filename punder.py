@@ -116,14 +116,15 @@ class PrefDialog():
         mp3 = gtk.CheckButton(label="MP3 (lossy compression)" )
         mp3_frame.set_label_widget(mp3)
         vbr_bttn = gtk.CheckButton(label="Variable bit rate (VBR)")
-    
+        vbr_bttn.set_tooltip_text("Better quality for the same size.")
+        
         mp3_hbox = gtk.HBox(False,0)
         bitrate_Label = gtk.Label("Bitrate")
         bitrate_Label.set_alignment(5,0)
         adj_mp3 = gtk.Adjustment(0, 0, 14, 1, 1, 1)
         scroll_mp3 = gtk.HScale(adj_mp3)
         scroll_mp3.set_digits(0)
-        
+        scroll_mp3.set_tooltip_text("Higher bitrate is better quality but also bigger file. Most people use 192Kbps.")
         # connect mp3 to some function
         mp3.connect("toggled", self.toggle_widgets, [bitrate_Label, vbr_bttn ,scroll_mp3])
         # this will make the widgets insensitive
@@ -153,6 +154,8 @@ class PrefDialog():
         ogg_scale.set_value_pos(gtk.POS_RIGHT)
         ogg_scale.set_digits(0)
         ogg_scale.set_update_policy(gtk.UPDATE_CONTINUOUS)
+        ogg_scale.set_tooltip_text("Higher quality means bigger file. Default is 6.")
+        
         ogg_scale.set_draw_value(True)
         ogg_hbox.pack_start(qLabel, False, False, 5)
         ogg_hbox.pack_start(ogg_scale, True, True, 5)
@@ -171,6 +174,7 @@ class PrefDialog():
         scroll_flac = gtk.HScale(adj_flac)
         scroll_flac.set_value_pos(gtk.POS_RIGHT)
         scroll_flac.set_digits(0)
+        scroll_flac.set_tooltip_text("This does not affect the quality. Higher number means smaller file.")
         
         flac.connect("toggled", self.toggle_widgets, [compression_Label, scroll_flac])
         self.toggle_widgets(flac ,[compression_Label, scroll_flac])
@@ -183,7 +187,7 @@ class PrefDialog():
         
         # Other formats
         expander = gtk.Expander(label="More formats")
-      
+        
         # WAV PACK
         wv_pk_frame = gtk.Frame()
         hybrid_frame = gtk.Frame()        
@@ -197,6 +201,7 @@ class PrefDialog():
         scroll_wv_pk = gtk.HScale(adj_wv_pk)
         scroll_wv_pk.set_value_pos(gtk.POS_RIGHT)
         scroll_wv_pk.set_digits(0)
+        scroll_wv_pk.set_tooltip_text("This does not affect the quality. Higher number means smaller file. Default is 1 (recommended).")
         wvpk_hbox.pack_start(compression_wv_pk, False, False, 5)
         wvpk_hbox.pack_start(scroll_wv_pk, True, True, 5)
         
@@ -205,6 +210,7 @@ class PrefDialog():
         wv_pk_frame.add(vbox_wv_pk)
         
         hybrid_button = gtk.CheckButton(label="Hybrid Compression")
+        hybrid_button.set_tooltip_text("The format is lossy but a correction file is created for restoring the lossless original.")
         hybrid_frame.set_label_widget(hybrid_button)
         hybrid_alignment = gtk.Alignment(0.5, 0.5, 1, 1)
         hybrid_alignment.add(hybrid_frame)
@@ -241,6 +247,7 @@ class PrefDialog():
         scroll_musepk = gtk.HScale(adj_musepk)
         scroll_musepk.set_value_pos(gtk.POS_RIGHT)
         scroll_musepk.set_digits(0)
+        scroll_musepk.set_tooltip_text("Higher bitrate is better quality but also bigger file.")
         
         musepk_button.connect("toggled", self.toggle_widgets, 
                        [musepk_compression_Label, scroll_musepk])
@@ -263,6 +270,7 @@ class PrefDialog():
         scroll_monkey = gtk.HScale(adj_monkey)
         scroll_monkey.set_value_pos(gtk.POS_RIGHT)
         scroll_monkey.set_digits(0)
+        scroll_monkey.set_tooltip_text("This does not affect the quality. Higher number means smaller file.")
         
         monkey_button.connect("toggled", self.toggle_widgets, 
                        [monkey_compression_Label, scroll_monkey])
@@ -281,6 +289,7 @@ class PrefDialog():
         vbox_in_expander.pack_start(musepk_frame, False, True, 0)
         vbox_in_expander.pack_start(monkey_frame, False, True, 0)
         expander.add(vbox_in_expander)
+        expander.set_expanded(True)
                 
         expander_prop = gtk.Expander(label="Proprietary formats")
 
@@ -295,6 +304,7 @@ class PrefDialog():
         scroll_aac = gtk.HScale(adj_aac)
         scroll_aac.set_value_pos(gtk.POS_RIGHT)
         scroll_aac.set_digits(0)
+        scroll_aac.set_tooltip_text("Higher quality means bigger file. Default is 60.")
         
         aac_button.connect("toggled", self.toggle_widgets, 
                        [aac_compression_Label, scroll_aac])
@@ -310,7 +320,7 @@ class PrefDialog():
         vbox_in_expander_prop = gtk.VBox(False)
         vbox_in_expander_prop.pack_start(aac_frame)
         expander_prop.add(vbox_in_expander_prop)
-        
+        expander_prop.set_expanded(True)
         # WAV
         wv_bttn = gtk.CheckButton(label="WAV (Uncompressed)")
         
