@@ -669,6 +669,10 @@ class PunderUI():
         
         treeview.set_rules_hint(True)
         vbox.pack_start(treeview)
+        cdrom = gtk.image_new_from_stock(gtk.STOCK_CDROM, gtk.ICON_SIZE_BUTTON)
+        hbox1 = gtk.HBox(False)
+        hbox1.pack_start(cdrom)
+        vbox.pack_start(hbox1)
         self.window.show_all()
 
 
