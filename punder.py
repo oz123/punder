@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+# -*- coding: utf-8 -*-
 """
 punder - part two, populating a table with child widgets
 UI is almost ready, tree view for track list is populated.
@@ -480,9 +480,30 @@ class PrefDialog():
         
         self.dialog.destroy()
 
-        
 
-class PunderUI():
+class AboutUI:
+    """
+    Show the about dialog
+    """
+    def __init__(self, widget):
+        """
+        create a GTK help dialog upon button click and destroy it when pressing the
+        close button
+        """
+        self.about = gtk.AboutDialog()
+        sometext=gtk.Label('This is just the beggining.\nWill Get back to it  later.')
+        self.about.vbox.pack_start(sometext)
+        self.about.set_website("https://github.com/oz123/punder")
+        authors = ["Oz Nahum"]
+        self.about.set_authors(authors)
+        self.about.set_translator_credits("German - Franz Müller\nFrench - Amellie Lecroix")
+        self.about.show_all()
+        self.about.run()
+        # adding this will cause the about dialog to close when we
+        # press the button 'Close'.
+        self.about.hide()
+    
+class PunderUI:
     """
     Initial class to draw the first toolbar.
     """
@@ -491,20 +512,6 @@ class PunderUI():
         A simple method to initiate a PrefDialog instance.
         """
         PrefDialog(self.window)
-    
-    def help_dialog(self, widget):
-        """
-        create a GTK help dialog upon button click and destroy it when pressing the
-        close button
-        """
-        self.about = gtk.AboutDialog()
-        sometext=gtk.Label('This is just the beggining.\nWill Get back to it  later.')
-        self.about.vbox.pack_start(sometext)
-        self.about.show_all()
-        result = self.about.run()
-        # adding this will cause the about dialog to close when we
-        # press the button 'Close'.
-        self.about.hide()
     
     def on_toggle(self, cell, path, list_store):
         """
@@ -588,7 +595,7 @@ class PunderUI():
         # takes by default 2 arguments:
         # def connect(detailed_signal, handler, ...)
         # see more info the [method documentation][doc1]
-        button_about.connect("clicked", self.help_dialog)
+        button_about.connect("clicked", AboutUI)
         
         self.window.connect("destroy", lambda w: gtk.main_quit())
         # we don't use window.add anymore, instead we use pack!
