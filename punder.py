@@ -8,7 +8,7 @@ UI is almost ready, tree view for track list is populated.
 
 import gtk
 
-class PrefDialog():
+class PrefDialog(object):
     """
     create the preferences dialog
     """ 
@@ -481,7 +481,7 @@ class PrefDialog():
         self.dialog.destroy()
 
 
-class AboutUI:
+class AboutUI(object):
     """
     Show the about dialog
     """
@@ -503,7 +503,7 @@ class AboutUI:
         # press the button 'Close'.
         self.about.hide()
     
-class PunderUI:
+class PunderUI(object):
     """
     Initial class to draw the first toolbar.
     """
