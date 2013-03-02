@@ -492,7 +492,13 @@ class AboutUI(object):
         """
         self.about = gtk.AboutDialog()
         sometext=gtk.Label('This is just the beggining.\nWill Get back to it  later.')
-        self.about.vbox.pack_start(sometext)
+        #self.about.vbox.pack_start(sometext)
+        self.about.set_program_name("Punder")
+        self.about.set_comments("An application to save tracks from an Audio CD \n"+\
+        "as WAV, MP3, OGG, FLAC, Wavpack, Musepack, Monkey's Audio, and/or "+\
+        "AAC files.")
+        self.about.set_license("This program is dirtributed under the terms of GPLv3+")
+        self.about.set_copyright("Copyright 2013 Oz Nahum")
         self.about.set_website("https://github.com/oz123/punder")
         authors = ["Oz Nahum"]
         self.about.set_authors(authors)
