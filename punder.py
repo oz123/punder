@@ -546,7 +546,21 @@ class PunderUI(object):
             column.set_sort_column_id(idx+1)
             treeView.append_column(column)
 
-
+    def make_rip_button(self, vbox):
+        """
+        add rip button
+        """
+        cdrom = gtk.image_new_from_stock(gtk.STOCK_CDROM, gtk.ICON_SIZE_BUTTON)
+        rip = gtk.Button()
+        label = gtk.Label("Rip")
+        fillerBox = gtk.HBox(False)
+        button_hbox = gtk.HBox(False)
+        button_hbox.pack_end(label, False,False)
+        button_hbox.pack_end(cdrom, False,False, 5)
+        rip.add(button_hbox)
+        fillerBox.pack_end(rip, False, False,0)
+        vbox.pack_start(fillerBox)
+            
     def __init__(self):
         """
         create the gui using GTK Window, and Toolbar.
@@ -682,10 +696,8 @@ class PunderUI(object):
         
         treeview.set_rules_hint(True)
         vbox.pack_start(treeview)
-        cdrom = gtk.image_new_from_stock(gtk.STOCK_CDROM, gtk.ICON_SIZE_BUTTON)
-        hbox1 = gtk.HBox(False)
-        hbox1.pack_start(cdrom)
-        vbox.pack_start(hbox1)
+        
+        self.make_rip_button(vbox)
         self.window.show_all()
 
 
