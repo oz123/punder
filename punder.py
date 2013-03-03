@@ -5,7 +5,6 @@ punder - part two, populating a table with child widgets
 UI is almost ready, tree view for track list is populated.
 """
 
-
 import gtk
 
 class PrefDialog(object):
@@ -497,13 +496,15 @@ class AboutUI(object):
         self.about.set_comments("An application to save tracks from an Audio CD \n"+\
         "as WAV, MP3, OGG, FLAC, Wavpack, Musepack, Monkey's Audio, and/or "+\
         "AAC files.")
-        self.about.set_license("This program is dirtributed under the terms of GPLv3+")
+        self.about.set_license("This program is distributed under the terms of GPLv3+.")
         self.about.set_copyright("Copyright 2013 Oz Nahum")
         self.about.set_website("https://github.com/oz123/punder")
         authors = ["Oz Nahum"]
         self.about.set_authors(authors)
         self.about.set_translator_credits("German - Franz Müller\nFrench - Amellie Lecroix")
+        self.about.set_artists(["The CD icon of Punder is originally from Asunder.\nhttp://littlesvr.ca/asunder/"])
         self.about.show_all()
+        self.about.set_icon_from_file("asunder.png")
         self.about.run()
         # adding this will cause the about dialog to close when we
         # press the button 'Close'.
@@ -696,12 +697,9 @@ class PunderUI(object):
         
         treeview.set_rules_hint(True)
         vbox.pack_start(treeview)
-        
+        self.window.set_icon_from_file("asunder.png")
         self.make_rip_button(vbox)
         self.window.show_all()
-
-
-
         
 PunderUI()
 gtk.main()
