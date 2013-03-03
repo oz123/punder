@@ -25,3 +25,8 @@ is needed and how to cope with it.
 
 I hope after reading (and writing) this tutorial you (and myself) will 
 be able to easily develop applications using PyGTK.
+
+The full tutorial can be found in [1][my blog entries starting with part 1].
+
+
+[1]: http://oz123.github.com/writings/2013-01-03-A%20Complete%20PyGTK%20CD%20Ripper%20Tutorial 
