@@ -556,10 +556,10 @@ class PunderUI(object):
         label = gtk.Label("Rip")
         fillerBox = gtk.HBox(False)
         button_hbox = gtk.HBox(False)
-        button_hbox.pack_end(label, False,False)
-        button_hbox.pack_end(cdrom, False,False, 5)
+        button_hbox.pack_end(label, False, False)
+        button_hbox.pack_end(cdrom, False, False, 5)
         rip.add(button_hbox)
-        fillerBox.pack_end(rip, False, False,0)
+        fillerBox.pack_end(rip, True, False, 0)
         vbox.pack_start(fillerBox)
             
     def __init__(self):
@@ -696,7 +696,7 @@ class PunderUI(object):
         album_table.attach(single_artist, 2, 3, 0, 1,gtk.FILL)
         
         treeview.set_rules_hint(True)
-        vbox.pack_start(treeview)
+        vbox.pack_start(treeview, False, False)
         self.window.set_icon_from_file("asunder.png")
         self.make_rip_button(vbox)
         self.window.show_all()
