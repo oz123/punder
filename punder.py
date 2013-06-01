@@ -36,7 +36,7 @@ class PrefDialog(object):
         vbox_cddb = gtk.VBox(False, 0)
         cddb_frame.add(vbox_cddb)
         info_bttn = gtk.CheckButton(label="Get disc info from the internet automatically")
-        vbox_cddb.pack_start(info_bttn)
+        vbox_cddb.pack_start(info_bttn, False, False)
         
         hbox_server = gtk.HBox(False, 0)
         server_label = gtk.Label("Server:")
@@ -559,8 +559,8 @@ class PunderUI(object):
         button_hbox.pack_end(label, False, False)
         button_hbox.pack_end(cdrom, False, False, 5)
         rip.add(button_hbox)
-        fillerBox.pack_end(rip, True, False, 0)
-        vbox.pack_start(fillerBox)
+        fillerBox.pack_end(rip, False, False, 0)
+        vbox.pack_start(fillerBox, False, False, 0)
             
     def __init__(self):
         """
@@ -624,7 +624,7 @@ class PunderUI(object):
         toolbar.insert(pref_button, 1)
         toolbar.insert(separator1, 2)
         toolbar.insert(button_about, 3)
-        vbox.pack_start(toolbar, False)
+        vbox.pack_start(toolbar, False, False)
         
         # a table is a very convient way to populate the window
         # with many different elements. A table can be packed too!
@@ -632,7 +632,7 @@ class PunderUI(object):
         album_table = gtk.Table(3, 3, False)
         # set fill to False so when resizing the window, it does not 
         # expand !
-        vbox.pack_start(album_table, False)
+        vbox.pack_start(album_table, False, False)
         
         artist_name = gtk.Entry(128)
         artist_name.set_text("Unknown Artist")
@@ -696,7 +696,7 @@ class PunderUI(object):
         album_table.attach(single_artist, 2, 3, 0, 1,gtk.FILL)
         
         treeview.set_rules_hint(True)
-        vbox.pack_start(treeview, False, False)
+        vbox.pack_start(treeview, True, True)
         self.window.set_icon_from_file("asunder.png")
         self.make_rip_button(vbox)
         self.window.show_all()
