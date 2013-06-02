@@ -686,7 +686,7 @@ class PunderUI(object):
         third = self.liststore.iter_next(second)
         self.liststore.set_value(third, 2, "Famous Singer")
 
-        #treeview = gtk.TreeView(store)
+        # treeview = gtk.TreeView(store)
         treeview.set_rules_hint(True)
         treeview.set_enable_search(False)
         self.create_columns(treeview)
@@ -697,6 +697,12 @@ class PunderUI(object):
         
         treeview.set_rules_hint(True)
         vbox.pack_start(treeview, True, True)
+        
+        # adding this line will add a window icon which will be propagated
+        # to all dialogs of the main program,
+        # try running the program and you will see this icon also added
+        # to the window of the Preferences dialog.
+
         self.window.set_icon_from_file("asunder.png")
         self.make_rip_button(vbox)
         self.window.show_all()
